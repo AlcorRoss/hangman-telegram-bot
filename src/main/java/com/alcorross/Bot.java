@@ -68,8 +68,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public String getMessage(String chatId) {
-        sendMessage(chatId, "Введите букву");
+    public String getMessage(String chatId, CheckMessage checkMessage) {
         String character;
         long timeout = System.currentTimeMillis() + 60000;
         while (true) {
@@ -83,7 +82,7 @@ public class Bot extends TelegramLongPollingBot {
             }
             character = MESSAGES.get(chatId);
             MESSAGES.remove(chatId);
-            if (CheckMessage.checkCharacter(character)) break;
+            if (checkMessage.checkCharacter(character)) break;
             sendMessage(chatId, "Некорректный ввод! Попробуй снова");
             timeout = System.currentTimeMillis() + 60000;
         }
@@ -91,6 +90,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     public void gameplay(String chatId) {
+        CheckMessage checkMessage = new CheckMessage();
         int loseCounter = 0;
         int winCounter = 0;
         String word = Dictionary.wordChoice();
@@ -100,7 +100,8 @@ public class Bot extends TelegramLongPollingBot {
 
         sendMessage(chatId, st.toString());
         while (true) {
-            character = getMessage(chatId);
+            sendMessage(chatId, "Введите букву");
+            character = getMessage(chatId, checkMessage);
             if (character == null) {
                 QUEUE.remove(chatId);
                 break;
