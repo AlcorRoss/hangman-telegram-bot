@@ -6,8 +6,8 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -41,8 +41,8 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public String getBotUsername() {
         Properties properties = new Properties();
-        try {
-            properties.load(new FileReader("src/main/resources/config.properties"));
+        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("config.properties")) {
+            properties.load(is);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,8 +52,8 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public String getBotToken() {
         Properties properties = new Properties();
-        try {
-            properties.load(new FileReader("src/main/resources/config.properties"));
+        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("config.properties")) {
+            properties.load(is);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,9 +91,10 @@ public class Bot extends TelegramLongPollingBot {
 
     public void gameplay(String chatId) {
         CheckMessage checkMessage = new CheckMessage();
+        Dictionary dictionary = new Dictionary();
         int loseCounter = 0;
         int winCounter = 0;
-        String word = Dictionary.wordChoice();
+        String word = dictionary.wordChoice();
         String character;
         StringBuilder st = new StringBuilder();
         st.append(" _".repeat(word.length()));
