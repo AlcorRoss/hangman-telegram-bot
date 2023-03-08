@@ -1,6 +1,11 @@
 package com.alcorross;
 
-import java.io.*;
+import lombok.Cleanup;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,18 +15,12 @@ public class Dictionary {
 
     public void readDictionary() {
         String line;
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("dictionary.txt");
-        if (inputStream == null) throw new IllegalArgumentException("file not found! " + "dictionary.txt");
-        try (BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream), 1384448)) {
-            while ((line = bufReader.readLine()) != null) dictionary.add(line);
-        } catch (IOException e) {
+        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("dictionary.txt")) {
+            if (is == null) throw new NullPointerException("File not found: dictionary.txt");
+            @Cleanup BufferedReader br = new BufferedReader(new InputStreamReader(is), 1384448);
+            while ((line = br.readLine()) != null) dictionary.add(line);
+        } catch (NullPointerException | IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 

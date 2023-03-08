@@ -18,49 +18,47 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            Message message = update.getMessage();
-            String chatId = message.getChatId().toString();
-            boolean flag = message.getText().equals("/start") || message.getText().equals("Новая игра");
-            boolean flag2 = QUEUE.contains(chatId);
+        Message message = update.getMessage();
+        String chatId = message.getChatId().toString();
+        boolean flag = message.getText().equals("/start") || message.getText().equals("Новая игра");
+        boolean flag2 = QUEUE.contains(chatId);
 
-            if (flag && flag2) {
-                sendMessage(chatId, "Эй, сперва закончи текущий раунд!");
-            } else if (flag) {
-                if (QUEUE.size() <= 20) {
-                    QUEUE.add(chatId);
-                    new Thread(() -> gameplay(chatId)).start();
-                } else sendMessage(chatId, "В настоящий момент превышено " +
-                        "количество пользователей, возвращайся позднее!");
-            } else if (flag2) {
-                MESSAGES.put(chatId, message.getText());
-            }
+        if (flag && flag2) {
+            sendMessage(chatId, "Эй, сперва закончи текущий раунд!");
+        } else if (flag) {
+            if (QUEUE.size() <= 20) {
+                QUEUE.add(chatId);
+                new Thread(() -> gameplay(chatId)).start();
+            } else sendMessage(chatId, "В настоящий момент превышено " +
+                    "количество пользователей, возвращайся позднее!");
+        } else if (flag2) {
+            MESSAGES.put(chatId, message.getText());
         }
     }
 
     @Override
     public String getBotUsername() {
-        Properties properties = new Properties();
-        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("config.properties")) {
-            properties.load(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return properties.getProperty("username");
+        Properties prop = getProp();
+        return prop.getProperty("username");
     }
 
     @Override
     public String getBotToken() {
+        Properties prop = getProp();
+        return prop.getProperty("token");
+    }
+
+    private Properties getProp() {
         Properties properties = new Properties();
         try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("config.properties")) {
             properties.load(is);
-        } catch (IOException e) {
+        } catch (NullPointerException | IOException e) {
             e.printStackTrace();
         }
-        return properties.getProperty("token");
+        return properties;
     }
 
-    public void sendMessage(String chatId, String text) {
+    private void sendMessage(String chatId, String text) {
         try {
             execute(new SendMessage(chatId, text));
         } catch (TelegramApiException e) {
@@ -68,7 +66,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public String getMessage(String chatId, CheckMessage checkMessage) {
+   private String getMessage(String chatId, CheckMessage checkMessage) {
         String character;
         long timeout = System.currentTimeMillis() + 60000;
         while (true) {
@@ -89,7 +87,7 @@ public class Bot extends TelegramLongPollingBot {
         return character.toLowerCase();
     }
 
-    public void gameplay(String chatId) {
+    private void gameplay(String chatId) {
         CheckMessage checkMessage = new CheckMessage();
         Dictionary dictionary = new Dictionary();
         int loseCounter = 0;
