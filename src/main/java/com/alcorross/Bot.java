@@ -1,8 +1,8 @@
 package com.alcorross;
 
+import lombok.Getter;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -13,27 +13,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Bot extends TelegramLongPollingBot {
-    private final ConcurrentSkipListSet<String> QUEUE = new ConcurrentSkipListSet<>();
-    private final ConcurrentHashMap<String, String> MESSAGES = new ConcurrentHashMap<>();
+    @Getter
+    private static final ConcurrentSkipListSet<String> QUEUE = new ConcurrentSkipListSet<>();
+    @Getter
+    private static final ConcurrentHashMap<String, String> MESSAGES = new ConcurrentHashMap<>();
 
     @Override
     public void onUpdateReceived(Update update) {
-        Message message = update.getMessage();
-        String chatId = message.getChatId().toString();
-        boolean flag = message.getText().equals("/start") || message.getText().equals("Новая игра");
-        boolean flag2 = QUEUE.contains(chatId);
-
-        if (flag && flag2) {
-            sendMessage(chatId, "Эй, сперва закончи текущий раунд!");
-        } else if (flag) {
-            if (QUEUE.size() <= 20) {
-                QUEUE.add(chatId);
-                new Thread(() -> gameplay(chatId)).start();
-            } else sendMessage(chatId, "В настоящий момент превышено " +
-                    "количество пользователей, возвращайся позднее!");
-        } else if (flag2) {
-            MESSAGES.put(chatId, message.getText());
-        }
+        new CheckMessage().checkMessage(update.getMessage());
     }
 
     @Override
@@ -58,7 +45,7 @@ public class Bot extends TelegramLongPollingBot {
         return properties;
     }
 
-    private void sendMessage(String chatId, String text) {
+    public void sendMessage(String chatId, String text) {
         try {
             execute(new SendMessage(chatId, text));
         } catch (TelegramApiException e) {
@@ -66,7 +53,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-   private String getCharacter(String chatId, CheckMessage checkMessage) {
+    private String getCharacter(String chatId, CheckMessage checkMessage) {
         String character;
         long timeout = System.currentTimeMillis() + 60000;
         while (true) {
@@ -87,7 +74,7 @@ public class Bot extends TelegramLongPollingBot {
         return character.toLowerCase();
     }
 
-    private void gameplay(String chatId) {
+    public void gameplay(String chatId) {
         CheckMessage checkMessage = new CheckMessage();
         Dictionary dictionary = new Dictionary();
         int loseCounter = 0;
