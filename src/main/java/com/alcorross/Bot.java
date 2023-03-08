@@ -66,7 +66,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-   private String getMessage(String chatId, CheckMessage checkMessage) {
+   private String getCharacter(String chatId, CheckMessage checkMessage) {
         String character;
         long timeout = System.currentTimeMillis() + 60000;
         while (true) {
@@ -100,7 +100,7 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage(chatId, st.toString());
         while (true) {
             sendMessage(chatId, "Введите букву");
-            character = getMessage(chatId, checkMessage);
+            character = getCharacter(chatId, checkMessage);
             if (character == null) {
                 QUEUE.remove(chatId);
                 break;
