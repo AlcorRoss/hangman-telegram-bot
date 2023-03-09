@@ -1,5 +1,8 @@
 package com.alcorross;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Gameplay {
     private String getCharacter(String chatId, CheckMessage checkMessage, Bot bot) {
         String character;
@@ -21,7 +24,7 @@ public class Gameplay {
             character = Bot.getMESSAGES().get(chatId);
             Bot.getMESSAGES().remove(chatId);
             if (checkMessage.checkCharacter(character)) break;
-            bot.sendMessage(chatId, "Некорректный ввод! Попробуй снова");
+            bot.sendMessage(chatId, "Некорректный ввод! Попробуйте снова");
             timeout = System.currentTimeMillis() + 60000;
         }
         return character.toLowerCase();
@@ -31,6 +34,7 @@ public class Gameplay {
         Bot bot = new Bot();
         CheckMessage checkMessage = new CheckMessage();
         Dictionary dictionary = new Dictionary();
+        Set<String> usedCharacter = new HashSet<>();
         int loseCounter = 0;
         int winCounter = 0;
         String word = dictionary.wordChoice();
@@ -46,6 +50,11 @@ public class Gameplay {
                 Bot.getQUEUE().remove(chatId);
                 break;
             }
+            if (usedCharacter.contains(character)) {
+                bot.sendMessage(chatId, "Эти буквы вы уже пробовали: " + usedCharacter);
+                continue;
+            }
+            usedCharacter.add(character);
             if (word.contains(character)) {
                 for (int i = 0; i < word.length(); i++) {
                     if (word.charAt(i) == character.charAt(0)) {
