@@ -18,7 +18,7 @@ public class CheckMessage {
         } else if (flag) {
             if (Bot.getQUEUE().size() <= 20) {
                 Bot.getQUEUE().add(chatId); //TODO добавить логирование, новый игрок, количество игроков
-                new Thread(() -> bot.gameplay(chatId)).start();
+                new Thread(() -> new Gameplay().gameplay(chatId)).start();
             } else bot.sendMessage(chatId, "В настоящий момент превышено " +
                     "количество пользователей, возвращайся позднее!");
         } else if (flag2) {
