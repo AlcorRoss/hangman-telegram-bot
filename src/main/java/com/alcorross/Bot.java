@@ -64,6 +64,11 @@ public class Bot extends TelegramLongPollingBot {
                     sendMessage(chatId, "Сыграть еще раз - /start");
                     return null;
                 }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             character = MESSAGES.get(chatId);
             MESSAGES.remove(chatId);
