@@ -1,8 +1,11 @@
 package com.alcorross;
 
-import java.util.HashSet;
-import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.Set;
+import java.util.TreeSet;
+
+@Slf4j
 public class Gameplay {
     private String getCharacter(String chatId, CheckMessage checkMessage, Bot bot) {
         String character;
@@ -13,12 +16,13 @@ public class Gameplay {
                     bot.sendMessage(chatId, "Кажется, вы обо мне забыли... Тогда до новых встреч! " +
                             "Полагаю есть истории, где с подобного начиналось восстание машин..."
                             + "\r\n" + "Сыграть еще раз - /start");
+                    log.info("The response waiting time has been exceeded. The game is forcibly completed.");
                     return null;
                 }
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    log.error("The thread was interrupted", e);
                 }
             }
             character = Bot.getMESSAGES().get(chatId);
@@ -34,7 +38,7 @@ public class Gameplay {
         Bot bot = new Bot();
         CheckMessage checkMessage = new CheckMessage();
         Dictionary dictionary = new Dictionary();
-        Set<String> usedCharacter = new HashSet<>();
+        Set<String> usedCharacter = new TreeSet<>();
         int loseCounter = 0;
         int winCounter = 0;
         String word = dictionary.wordChoice();
@@ -76,11 +80,11 @@ public class Gameplay {
             }
             if (loseCounter == 6) {
                 bot.sendMessage(chatId, Pictures.ERR_6 + temp + "\r\n" + "Слово: " + word + "\r\n"
-                        + "Ты проиграл! Сыграть еще раз - /start");
+                        + "Поражение! Сыграть еще раз - /start");
                 Bot.getQUEUE().remove(chatId);
                 break;
             } else if (winCounter == word.length()) {
-                bot.sendMessage(chatId, "Слово: " + word + "\r\n" + "Ты победил!" + "\r\n"
+                bot.sendMessage(chatId, "Слово: " + word + "\r\n" + "Победа!" + "\r\n"
                         + "Сыграть еще раз - /start");
                 Bot.getQUEUE().remove(chatId);
                 break;

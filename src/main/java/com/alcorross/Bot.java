@@ -1,6 +1,7 @@
 package com.alcorross;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -12,6 +13,7 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+@Slf4j
 public class Bot extends TelegramLongPollingBot {
     @Getter
     private static final ConcurrentSkipListSet<String> QUEUE = new ConcurrentSkipListSet<>();
@@ -40,7 +42,7 @@ public class Bot extends TelegramLongPollingBot {
         try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("config.properties")) {
             properties.load(is);
         } catch (NullPointerException | IOException e) {
-            e.printStackTrace();
+            log.error("Failed to read file config.properties", e);
         }
         return properties;
     }
@@ -49,7 +51,7 @@ public class Bot extends TelegramLongPollingBot {
         try {
             execute(new SendMessage(chatId, text));
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("Failed to send message", e);
         }
     }
 }

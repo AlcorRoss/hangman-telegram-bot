@@ -1,6 +1,7 @@
 package com.alcorross;
 
 import lombok.Cleanup;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Slf4j
 public class Dictionary {
     private final static List<String> dictionary = new ArrayList<>();
 
@@ -20,7 +22,7 @@ public class Dictionary {
             @Cleanup BufferedReader br = new BufferedReader(new InputStreamReader(is), 1384448);
             while ((line = br.readLine()) != null) dictionary.add(line);
         } catch (NullPointerException | IOException e) {
-            e.printStackTrace();
+            log.error("Failed to read file", e);
         }
     }
 
