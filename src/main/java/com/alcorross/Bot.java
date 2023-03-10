@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
@@ -47,9 +48,11 @@ public class Bot extends TelegramLongPollingBot {
         return properties;
     }
 
-    public void sendMessage(String chatId, String text) {
+    public void sendMessage(String chatId, String text, ReplyKeyboardMarkup keyboard) {
+        SendMessage sendMessage = new SendMessage(chatId, text);
+        if (keyboard != null) sendMessage.setReplyMarkup(keyboard);
         try {
-            execute(new SendMessage(chatId, text));
+            execute(sendMessage);
         } catch (TelegramApiException e) {
             log.error("Failed to send message", e);
         }
