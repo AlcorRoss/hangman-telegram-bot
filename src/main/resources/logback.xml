@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">>
+        <file>logs/HangmanTB_logFile.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/HangmanTB_logFile_%d{dd.MM.yyyy_HH.mm}.log</fileNamePattern>
+            <fileNamePattern>HangmanTB_logFile_%d{dd.MM.yyyy_HH.mm}.log</fileNamePattern>
             <maxHistory>10</maxHistory>
             <totalSizeCap>100MB</totalSizeCap>
         </rollingPolicy>
