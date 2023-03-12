@@ -16,7 +16,7 @@ public class Gameplay {
                 if (System.currentTimeMillis() > timeout) {
                     bot.sendMessage(chatId, "Кажется, вы обо мне забыли... Тогда до новых встреч! " +
                             "Полагаю есть истории, где с подобного начиналось восстание машин..."
-                            + "\r\n" + "Сыграть еще раз - /start", null);
+                            + "\r\n" + "Сыграть еще раз - /start", keyboard.getNewGameKeyboard());
                     log.info("The response waiting time has been exceeded. The game is forcibly completed.");
                     return null;
                 }
@@ -72,7 +72,7 @@ public class Gameplay {
             } else {
                 loseCounter++;
             }
-            temp = "\r\n" + "Допущено ошибок: " + loseCounter + "\r\n" + "Отгаданные буквы: " + st;
+            temp = "\r\n" + "Допущено ошибок: " + loseCounter + "\r\n" + "Отгаданные буквы: " + "\r\n" + st;
             switch (loseCounter) {
                 case 0 -> bot.sendMessage(chatId, Pictures.ERR_0 + temp, null);
                 case 1 -> bot.sendMessage(chatId, Pictures.ERR_1 + temp, null);
