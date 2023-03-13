@@ -29,7 +29,7 @@ class BotTest {
     }
 
     @Test
-    void botUsernameShouldBeEqualsExpectedOne() {
+    void botUsernameShouldBeEqualExpectedOne() {
         assertEquals(bot.getBotUsername(), prop.getProperty("username"),"Username must match the expected one");
     }
 
@@ -39,7 +39,7 @@ class BotTest {
     }
 
     @Test
-    void botTokenShouldBeEqualsExpectedOne() {
+    void botTokenShouldBeEqualExpectedOne() {
         assertEquals(bot.getBotToken(), prop.getProperty("token"),"Token must match the expected one");
     }
 }
