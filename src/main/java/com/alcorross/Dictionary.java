@@ -1,6 +1,7 @@
 package com.alcorross;
 
 import lombok.Cleanup;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ import java.util.Random;
 
 @Slf4j
 public class Dictionary {
+    @Getter
     private final static List<String> dictionary = new ArrayList<>();
 
     public void readDictionary() {
