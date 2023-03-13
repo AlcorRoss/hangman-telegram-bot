@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class KeyboardTest {
+class KeyboardTest {
     private static final Keyboard keyboard = new Keyboard();
     private static final Map<Set<String>, ReplyKeyboardMarkup> mapTestKeyboard = new HashMap<>();
 

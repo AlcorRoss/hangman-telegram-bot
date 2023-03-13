@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DictionaryTest {
+class DictionaryTest {
 
     private static final Dictionary dict = new Dictionary();
     private static final List<String> testList = new ArrayList<>();
