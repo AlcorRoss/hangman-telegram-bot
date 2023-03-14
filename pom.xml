@@ -17,8 +17,8 @@
         <connection>scm:git:git@github.com:AlcorRoss/hangman-telegram-bot.git</connection>
         <developerConnection>scm:git:git@github.com:AlcorRoss/hangman-telegram-bot.git</developerConnection>
         <url>https://github.com/AlcorRoss/hangman-telegram-bot</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <dependencies>
         <dependency>
