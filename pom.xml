@@ -15,6 +15,12 @@
         <junit.version>5.9.2</junit.version>
     </properties>
 
+    <scm>
+        <connection>scm:git:git@github.com:AlcorRoss/hangman-telegram-bot.git</connection>
+        <developerConnection>scm:git:git@github.com:AlcorRoss/hangman-telegram-bot.git</developerConnection>
+        <url>https://github.com/AlcorRoss/hangman-telegram-bot</url>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>org.telegram</groupId>
@@ -159,6 +165,12 @@
                         <phase>prepare-package</phase>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.0.0-M7</version>
             </plugin>
         </plugins>
     </build>
