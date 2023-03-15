@@ -10,7 +10,7 @@
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <telegrambots.version>6.5.0</telegrambots.version>
+        <telegrambots-abilities.version>6.5.0</telegrambots-abilities.version>
         <lombok.version>1.18.26</lombok.version>
         <slf4j-api.version>2.0.6</slf4j-api.version>
         <logback-classic.version>1.4.5</logback-classic.version>
@@ -27,8 +27,8 @@
     <dependencies>
         <dependency>
             <groupId>org.telegram</groupId>
-            <artifactId>telegrambots</artifactId>
-            <version>${telegrambots.version}</version>
+            <artifactId>telegrambots-abilities</artifactId>
+            <version>${telegrambots-abilities.version}</version>
         </dependency>
 
         <dependency>
