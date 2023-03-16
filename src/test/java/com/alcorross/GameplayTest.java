@@ -25,11 +25,11 @@ public class GameplayTest {
 
     @Test
     void setQueueShouldBeEmpty() {
-        Bot.getQUEUE().add("1");
+        Bot.getCURRENT_SESSIONS().add("1");
         new Thread(this::characterSupplier).start();
-        new Gameplay().gameplay("1");
+        Gameplay.getGameplayInstance().gameplay("1");
         flag = false;
         Bot.getMESSAGES().clear();
-        assertTrue(Bot.getQUEUE().isEmpty());
+        assertTrue(Bot.getCURRENT_SESSIONS().isEmpty());
     }
 }

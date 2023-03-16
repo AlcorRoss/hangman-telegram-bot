@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DictionaryTest {
 
-    private static final Dictionary dict = new Dictionary();
+    private static final Dictionary dict = Dictionary.getDictionaryInstance();
     private static final List<String> testList = new ArrayList<>();
 
     @BeforeAll

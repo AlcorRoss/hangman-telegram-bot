@@ -9,24 +9,36 @@ import java.util.regex.Pattern;
 @Slf4j
 public class CheckMessage {
 
+    private static CheckMessage checkMessageInstance;
+
+    private CheckMessage() {
+    }
+
+    public static CheckMessage getCheckMessageInstance() {
+        if (checkMessageInstance == null) checkMessageInstance = new CheckMessage();
+        return checkMessageInstance;
+    }
+
     public void checkMessage(Message message) {
-        Bot bot = new Bot();
+        Bot bot = Bot.getBotInstance();
         String chatId = message.getChatId().toString();
         boolean flag = message.getText().equals("/start") || message.getText().equals("Новая игра");
-        boolean flag2 = Bot.getQUEUE().contains(chatId);
+        boolean flag2 = Bot.getCURRENT_SESSIONS().contains(chatId);
 
         if (flag && flag2) {
             bot.sendMessage(chatId, "Эй, сперва закончи текущий раунд!", null);
         } else if (flag) {
-            if (Bot.getQUEUE().size() <= 20) {
-                Bot.getQUEUE().add(chatId);
-                log.info("Start new game. Quantity of players: " + Bot.getQUEUE().size());
-                new Thread(() -> new Gameplay().gameplay(chatId)).start();
-            } else {
-                bot.sendMessage(chatId, "В настоящий момент превышено " +
-                        "количество пользователей, возвращайся позднее!", null);
-                log.info("Failed to start a new game. Exceeded the number of players." +
-                        " Quantity of players: " + Bot.getQUEUE().size());
+            synchronized (Bot.getCURRENT_SESSIONS()) {
+                if (Bot.getCURRENT_SESSIONS().size() <= 20) {
+                    Bot.getCURRENT_SESSIONS().add(chatId);
+                    log.info("Start new game. Quantity of players: " + Bot.getCURRENT_SESSIONS().size());
+                    new Thread(() -> Gameplay.getGameplayInstance().gameplay(chatId)).start();
+                } else {
+                    bot.sendMessage(chatId, "В настоящий момент превышено " +
+                            "количество пользователей, возвращайся позднее!", null);
+                    log.info("Failed to start a new game. Exceeded the number of players." +
+                            " Quantity of players: " + Bot.getCURRENT_SESSIONS().size());
+                }
             }
         } else if (flag2) {
             Bot.getMESSAGES().put(chatId, message.getText());

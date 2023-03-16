@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class KeyboardTest {
-    private static final Keyboard keyboard = new Keyboard();
+    private static final Keyboard keyboard = Keyboard.getKeyboardInstance();
     private static final Map<Set<String>, ReplyKeyboardMarkup> mapTestKeyboard = new HashMap<>();
 
     static Stream<Set<String>> keyboardProviderFactory() {
@@ -67,7 +67,7 @@ class KeyboardTest {
     @ParameterizedTest
     @MethodSource("keyboardProviderFactory")
     void keyboardShouldBeEqualTestKeyboard(Set<String> unusedCharacter) {
-        assertEquals(mapTestKeyboard.get(unusedCharacter), keyboard.getKeyboard(unusedCharacter),"getKeyboard" +
+        assertEquals(mapTestKeyboard.get(unusedCharacter), keyboard.getKeyboard(unusedCharacter), "getKeyboard" +
                 " should return a keyboard equal to the keyboard from mapTestKeyboard");
     }
 }

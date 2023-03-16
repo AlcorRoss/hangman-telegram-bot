@@ -7,6 +7,17 @@ import java.util.TreeSet;
 
 @Slf4j
 public class Gameplay {
+
+    private static Gameplay gameplayInstance;
+
+    private Gameplay() {
+    }
+
+    public static Gameplay getGameplayInstance() {
+        if (gameplayInstance == null) gameplayInstance = new Gameplay();
+        return gameplayInstance;
+    }
+
     private String getCharacter(String chatId, CheckMessage checkMessage,
                                 Bot bot, Keyboard keyboard, Set<String> usedCharacter) {
         String character;
@@ -36,10 +47,10 @@ public class Gameplay {
     }
 
     public void gameplay(String chatId) {
-        Keyboard keyboard = new Keyboard();
-        Bot bot = new Bot();
-        CheckMessage checkMessage = new CheckMessage();
-        Dictionary dictionary = new Dictionary();
+        Keyboard keyboard = Keyboard.getKeyboardInstance();
+        Bot bot = Bot.getBotInstance();
+        CheckMessage checkMessage = CheckMessage.getCheckMessageInstance();
+        Dictionary dictionary = Dictionary.getDictionaryInstance();
         Set<String> usedCharacter = new TreeSet<>();
         int loseCounter = 0;
         int winCounter = 0;
@@ -53,7 +64,7 @@ public class Gameplay {
             bot.sendMessage(chatId, "Введите букву", keyboard.getKeyboard(usedCharacter));
             character = getCharacter(chatId, checkMessage, bot, keyboard, usedCharacter);
             if (character == null) {
-                Bot.getQUEUE().remove(chatId);
+                Bot.getCURRENT_SESSIONS().remove(chatId);
                 break;
             }
             if (usedCharacter.contains(character)) {
@@ -85,12 +96,12 @@ public class Gameplay {
 
                 bot.sendMessage(chatId, Pictures.ERR_6 + temp + "\r\n" + "Слово: " + word + "\r\n"
                         + "Поражение! Сыграть еще раз - /start", keyboard.getNewGameKeyboard());
-                Bot.getQUEUE().remove(chatId);
+                Bot.getCURRENT_SESSIONS().remove(chatId);
                 break;
             } else if (winCounter == word.length()) {
                 bot.sendMessage(chatId, "Слово: " + word + "\r\n" + "Победа!" + "\r\n"
                         + "Сыграть еще раз - /start", keyboard.getNewGameKeyboard());
-                Bot.getQUEUE().remove(chatId);
+                Bot.getCURRENT_SESSIONS().remove(chatId);
                 break;
             }
         }

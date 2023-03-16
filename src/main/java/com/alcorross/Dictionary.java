@@ -16,6 +16,15 @@ import java.util.Random;
 public class Dictionary {
     @Getter
     private final static List<String> dictionary = new ArrayList<>();
+    private static Dictionary dictionaryInstance;
+
+    private Dictionary() {
+    }
+
+    public static Dictionary getDictionaryInstance() {
+        if (dictionaryInstance == null) dictionaryInstance = new Dictionary();
+        return dictionaryInstance;
+    }
 
     public void readDictionary() {
         String line;

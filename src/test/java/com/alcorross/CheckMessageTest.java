@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CheckMessageTest {
-    private static final CheckMessage checkMessage = new CheckMessage();
+    private static final CheckMessage checkMessage = CheckMessage.getCheckMessageInstance();
 
     static Stream<String> falseArgsProviderFactory() {
         List<String> argsList = new ArrayList<>();

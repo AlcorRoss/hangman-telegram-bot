@@ -9,6 +9,15 @@ import java.util.List;
 import java.util.Set;
 
 public class Keyboard {
+    private static Keyboard keyboardInstance;
+
+    private Keyboard() {
+    }
+
+    public static Keyboard getKeyboardInstance() {
+        if (keyboardInstance == null) keyboardInstance = new Keyboard();
+        return keyboardInstance;
+    }
 
     public ReplyKeyboardMarkup getKeyboard(Set<String> usedCharacter) {
         char[] alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя".toCharArray();
