@@ -4,14 +4,15 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class Listener implements Runnable {
     private static Listener listenerInstance;
     @Getter
-    private final Map<String, GameSession> CURRENT_SESSIONS = new ConcurrentHashMap<>();
+    private final Map<String, GameSession> CURRENT_SESSIONS = new HashMap<>();
     private String chatId;
     Bot bot = Bot.getBotInstance();
     Keyboard keyboard = Keyboard.getKeyboardInstance();
@@ -31,7 +32,8 @@ public class Listener implements Runnable {
         Message message;
         String text;
         try {
-            message = bot.getMESSAGES().take();
+            message = bot.getMESSAGES().poll(5, TimeUnit.SECONDS);
+            if (message == null) return;
         } catch (InterruptedException e) {
             log.error("The thread was interrupted", e);
             return;

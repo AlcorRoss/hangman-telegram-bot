@@ -1,7 +1,7 @@
 package com.alcorross;
 
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class LaunchManager implements Runnable {
@@ -18,8 +18,8 @@ public class LaunchManager implements Runnable {
 
     @Override
     public void run() {
-        ScheduledExecutorService service = new ScheduledThreadPoolExecutor(2);
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleWithFixedDelay(Listener.getListenerInstance(), 1, 5, TimeUnit.MILLISECONDS);
-        service.scheduleWithFixedDelay(TimeoutCleaner.getTimeCleanInstance(), 60, 5, TimeUnit.SECONDS);
+        service.scheduleWithFixedDelay(TimeoutCleaner.getTimeCleanInstance(), 10, 5, TimeUnit.SECONDS);
     }
 }
