@@ -1,9 +1,12 @@
 package com.alcorross;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@Slf4j
 public class TimeoutCleaner implements Runnable {
     private static TimeoutCleaner timeoutCleanerInstance;
     private final static String MESSAGE = "Кажется, вы обо мне забыли... Тогда до новых встреч! " +
@@ -27,6 +30,7 @@ public class TimeoutCleaner implements Runnable {
         for (String s : tempSet) {
             if (!currentSessions.containsKey(s)) {
                 Bot.getBotInstance().sendMessage(s, MESSAGE, Keyboard.getKeyboardInstance().getNewGameKeyboard());
+                log.info("The response waiting time has been exceeded. The game is forcibly completed.");
             }
         }
     }
