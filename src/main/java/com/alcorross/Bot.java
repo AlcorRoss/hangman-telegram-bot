@@ -4,21 +4,19 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @Slf4j
 public class Bot extends TelegramLongPollingBot {
+
     @Getter
-    private static final Set<String> CURRENT_SESSIONS = Collections.synchronizedSet(new HashSet<>());
-    @Getter
-    private static final ConcurrentHashMap<String, String> MESSAGES = new ConcurrentHashMap<>();
+    private final LinkedBlockingQueue<Message> MESSAGES = new LinkedBlockingQueue<>();
+
     private static Bot botInstance;
 
     private Bot(String botToken) {
@@ -27,16 +25,20 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        CheckMessage.getCheckMessageInstance().checkMessage(update.getMessage());
+        try {
+            MESSAGES.put(update.getMessage());
+        } catch (InterruptedException e) {
+            log.error("The thread was interrupted", e);
+        }
     }
 
     @Override
     public String getBotUsername() {
-        return System.getenv("VAR_NAME");
+        return System.getenv("HANG_NAME");
     }
 
     public static Bot getBotInstance() {
-        if (botInstance == null) botInstance = new Bot(System.getenv("VAR_TOKEN"));
+        if (botInstance == null) botInstance = new Bot(System.getenv("HANG_TOKEN"));
         return botInstance;
     }
 

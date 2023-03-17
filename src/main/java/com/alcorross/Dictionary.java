@@ -15,7 +15,7 @@ import java.util.Random;
 @Slf4j
 public class Dictionary {
     @Getter
-    private final static List<String> dictionary = new ArrayList<>();
+    private final List<String> dictionary = new ArrayList<>();
     private static Dictionary dictionaryInstance;
 
     private Dictionary() {

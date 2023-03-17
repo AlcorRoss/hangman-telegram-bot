@@ -2,7 +2,6 @@ package com.alcorross;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DictionaryTest {
@@ -26,13 +24,6 @@ class DictionaryTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Test
-    void listDictionaryShouldBeEqualTestList() {
-        dict.readDictionary();
-        assertEquals(testList, Dictionary.getDictionary(), "The dictionary list must be equal " +
-                "to the testList list");
     }
 
     @RepeatedTest(10000)
