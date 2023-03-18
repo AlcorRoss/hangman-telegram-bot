@@ -2,6 +2,7 @@ package com.alcorross;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,5 +55,17 @@ class CheckMessageTest {
     @MethodSource("falseArgsProviderFactory")
     void checkCharacterShouldReturnFalse(String line) {
         assertFalse(checkMessage.checkCharacter(line), "The method must return false for the value " + line);
+    }
+
+    @ParameterizedTest
+    @MethodSource("falseArgsProviderFactory")
+    void isCommandShouldReturnFalse(String line) {
+        assertFalse(checkMessage.isCommand(line), "The method must return false for the value " + line);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"/start", "Новая игра"})
+    void isCommandShouldReturnTrue(String line) {
+        assertTrue(checkMessage.isCommand(line));
     }
 }
