@@ -23,14 +23,16 @@ public class TimeoutCleaner implements Runnable {
 
     @Override
     public void run() {
-        Map<String, GameSession> currentSessions = Listener.getListenerInstance().getCURRENT_SESSIONS();
-        Set<String> tempSet = new HashSet<>(currentSessions.keySet());
-        currentSessions.entrySet()
-                .removeIf(entry -> System.currentTimeMillis() - entry.getValue().getTimeOfLastChange() > 60000);
-        for (String s : tempSet) {
-            if (!currentSessions.containsKey(s)) {
-                Bot.getBotInstance().sendMessage(s, MESSAGE, Keyboard.getKeyboardInstance().getNewGameKeyboard());
-                log.info("The response waiting time has been exceeded. The game is forcibly completed.");
+        synchronized (Listener.getListenerInstance().getCURRENT_SESSIONS()) {
+            Map<String, GameSession> currentSessions = Listener.getListenerInstance().getCURRENT_SESSIONS();
+            Set<String> tempSet = new HashSet<>(currentSessions.keySet());
+            currentSessions.entrySet()
+                    .removeIf(entry -> System.currentTimeMillis() - entry.getValue().getTimeOfLastChange() > 60000);
+            for (String s : tempSet) {
+                if (!currentSessions.containsKey(s)) {
+                    Bot.getBotInstance().sendMessage(s, MESSAGE, Keyboard.getKeyboardInstance().getNewGameKeyboard());
+                    log.info("The response waiting time has been exceeded. The game is forcibly completed.");
+                }
             }
         }
     }

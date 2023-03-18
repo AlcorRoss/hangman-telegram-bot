@@ -6,7 +6,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class Listener implements Runnable {
@@ -32,8 +31,7 @@ public class Listener implements Runnable {
         Message message;
         String text;
         try {
-            message = bot.getMESSAGES().poll(5, TimeUnit.SECONDS);
-            if (message == null) return;
+            message = bot.getMESSAGES().take();
         } catch (InterruptedException e) {
             log.error("The thread was interrupted", e);
             return;
