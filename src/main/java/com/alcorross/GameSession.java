@@ -14,7 +14,6 @@ public class GameSession {
     private int loseCounter = 0;
     private int winCounter = 0;
     private final String WORD;
-    @Getter
     private final String CHAT_ID;
     @Getter
     private final Set<String> USED_CHARACTER = new TreeSet<>();
