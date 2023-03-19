@@ -1,7 +1,6 @@
 package com.alcorross;
 
 import lombok.Cleanup;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -14,8 +13,7 @@ import java.util.Random;
 
 @Slf4j
 public class Dictionary {
-    @Getter
-    private final List<String> dictionary = new ArrayList<>();
+    private final List<String> DICTIONARY = new ArrayList<>();
     private static Dictionary dictionaryInstance;
 
     private Dictionary() {
@@ -31,7 +29,7 @@ public class Dictionary {
         try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("dictionary.txt")) {
             if (is == null) throw new NullPointerException("File not found: dictionary.txt");
             @Cleanup BufferedReader br = new BufferedReader(new InputStreamReader(is), 1384448);
-            while ((line = br.readLine()) != null) dictionary.add(line);
+            while ((line = br.readLine()) != null) DICTIONARY.add(line);
         } catch (NullPointerException | IOException e) {
             log.error("Failed to read file", e);
         }
@@ -39,7 +37,7 @@ public class Dictionary {
 
     public String wordChoice() {
         Random r = new Random();
-        if (dictionary.isEmpty()) readDictionary();
-        return dictionary.get(r.nextInt(0, dictionary.size()));
+        if (DICTIONARY.isEmpty()) readDictionary();
+        return DICTIONARY.get(r.nextInt(0, DICTIONARY.size()));
     }
 }
