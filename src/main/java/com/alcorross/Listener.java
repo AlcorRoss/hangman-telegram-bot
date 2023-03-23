@@ -30,26 +30,28 @@ public class Listener implements Runnable {
     public void run() {
         Message message;
         String text;
-        try {
-            message = bot.getMESSAGES().take();
-        } catch (InterruptedException e) {
-            log.error("The thread was interrupted", e);
-            return;
-        }
-        chatId = message.getChatId().toString();
-        text = message.getText();
-        if (checkMessage.isCommand(text)) {
-            if (CURRENT_SESSIONS.containsKey(chatId))
-                bot.sendMessage(chatId, "Эй, сперва закончите текущий раунд!",
-                        keyboard.getKeyboard(CURRENT_SESSIONS.get(chatId).getUSED_CHARACTER()));
-            else
-                createNewGameSession();
-        } else if (CURRENT_SESSIONS.containsKey(chatId)) {
-            if (checkMessage.checkCharacter(text)) {
-                CURRENT_SESSIONS.get(chatId).makeAMove(text.toLowerCase());
-            } else {
-                bot.sendMessage(chatId, "Некорректный ввод! Введите букву",
-                        keyboard.getKeyboard(CURRENT_SESSIONS.get(chatId).getUSED_CHARACTER()));
+        while (true) {
+            try {
+                message = bot.getMESSAGES().take();
+            } catch (InterruptedException e) {
+                log.error("The thread was interrupted", e);
+                return;
+            }
+            chatId = message.getChatId().toString();
+            text = message.getText();
+            if (checkMessage.isCommand(text)) {
+                if (CURRENT_SESSIONS.containsKey(chatId))
+                    bot.sendMessage(chatId, "Эй, сперва закончите текущий раунд!",
+                            keyboard.getKeyboard(CURRENT_SESSIONS.get(chatId).getUSED_CHARACTER()));
+                else
+                    createNewGameSession();
+            } else if (CURRENT_SESSIONS.containsKey(chatId)) {
+                if (checkMessage.checkCharacter(text)) {
+                    CURRENT_SESSIONS.get(chatId).makeAMove(text.toLowerCase());
+                } else {
+                    bot.sendMessage(chatId, "Некорректный ввод! Введите букву",
+                            keyboard.getKeyboard(CURRENT_SESSIONS.get(chatId).getUSED_CHARACTER()));
+                }
             }
         }
     }
