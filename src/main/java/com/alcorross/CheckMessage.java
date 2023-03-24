@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 public class CheckMessage {
 
     private static CheckMessage checkMessageInstance;
+    private static final Pattern PATTERN = Pattern.compile("[а-яёА-ЯЁ]+");
 
     private CheckMessage() {
     }
@@ -23,8 +24,7 @@ public class CheckMessage {
     }
 
     public boolean checkCharacter(String character) {
-        Pattern pattern = Pattern.compile("[а-яёА-ЯЁ]+");
-        Matcher matcher = pattern.matcher(character);
+        Matcher matcher = PATTERN.matcher(character);
         return character.length() == 1 && matcher.find();
     }
 }

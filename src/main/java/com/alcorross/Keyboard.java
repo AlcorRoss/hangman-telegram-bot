@@ -10,6 +10,7 @@ import java.util.Set;
 
 public class Keyboard {
     private static Keyboard keyboardInstance;
+    private static final char[] ALPHABET = "абвгдежзийклмнопрстуфхцчшщъыьэюя".toCharArray();
 
     private Keyboard() {
     }
@@ -20,17 +21,13 @@ public class Keyboard {
     }
 
     public ReplyKeyboardMarkup getKeyboard(Set<String> usedCharacter) {
-        char[] alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя".toCharArray();
         ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup();
         KeyboardRow kRow = new KeyboardRow();
         List<KeyboardRow> keyboardRows = new ArrayList<>();
-        List<String> unusedCharacter = new ArrayList<>();
+        List<String> unusedCharacter = identifyUnusedCharacter(usedCharacter);
 
         keyboard.setResizeKeyboard(true);
         keyboard.setOneTimeKeyboard(false);
-        for (char c : alphabet) {
-            if (!usedCharacter.contains(String.valueOf(c))) unusedCharacter.add(String.valueOf(c).toUpperCase());
-        }
         for (String s : unusedCharacter) {
             kRow.add(new KeyboardButton(s));
             if (kRow.size() == 11) {
@@ -41,6 +38,14 @@ public class Keyboard {
         if (kRow.size() > 0) keyboardRows.add(kRow);
         keyboard.setKeyboard(keyboardRows);
         return keyboard;
+    }
+
+    private List<String> identifyUnusedCharacter(Set<String> usedCharacter) {
+        List<String> unusedCharacter = new ArrayList<>();
+        for (char c : ALPHABET) {
+            if (!usedCharacter.contains(String.valueOf(c))) unusedCharacter.add(String.valueOf(c).toUpperCase());
+        }
+        return unusedCharacter;
     }
 
     public ReplyKeyboardMarkup getNewGameKeyboard() {

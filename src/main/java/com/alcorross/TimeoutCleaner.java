@@ -9,7 +9,7 @@ import java.util.Set;
 @Slf4j
 public class TimeoutCleaner implements Runnable {
     private static TimeoutCleaner timeoutCleanerInstance;
-    private final static String MESSAGE = "Кажется, вы обо мне забыли... Тогда до новых встреч! " +
+    private static final String MESSAGE = "Кажется, вы обо мне забыли... Тогда до новых встреч! " +
             "Полагаю есть истории, где с подобного начиналось восстание машин..."
             + "\r\n" + "Сыграть еще раз - /start";
 
@@ -23,16 +23,14 @@ public class TimeoutCleaner implements Runnable {
 
     @Override
     public void run() {
-        synchronized (Listener.getListenerInstance().getCURRENT_SESSIONS()) {
-            Map<String, GameSession> currentSessions = Listener.getListenerInstance().getCURRENT_SESSIONS();
-            Set<String> tempSet = new HashSet<>(currentSessions.keySet());
-            currentSessions.entrySet()
-                    .removeIf(entry -> System.currentTimeMillis() - entry.getValue().getTimeOfLastChange() > 60000);
-            for (String s : tempSet) {
-                if (!currentSessions.containsKey(s)) {
-                    Bot.getBotInstance().sendMessage(s, MESSAGE, Keyboard.getKeyboardInstance().getNewGameKeyboard());
-                    log.info("The response waiting time has been exceeded. The game is forcibly completed.");
-                }
+        Map<String, GameSession> currentSessions = Listener.getListenerInstance().getCURRENT_SESSIONS();
+        Set<String> tempSet = new HashSet<>(currentSessions.keySet());
+        currentSessions.entrySet()
+                .removeIf(entry -> System.currentTimeMillis() - entry.getValue().getTimeOfLastChange() > 60000);
+        for (String s : tempSet) {
+            if (!currentSessions.containsKey(s)) {
+                Bot.getBotInstance().sendMessage(s, MESSAGE, Keyboard.getKeyboardInstance().getNewGameKeyboard());
+                log.info("The response waiting time has been exceeded. The game is forcibly completed.");
             }
         }
     }

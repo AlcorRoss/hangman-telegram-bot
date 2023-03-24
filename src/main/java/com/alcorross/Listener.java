@@ -4,15 +4,14 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class Listener implements Runnable {
     private static Listener listenerInstance;
     @Getter
-    private final Map<String, GameSession> CURRENT_SESSIONS = new HashMap<>();
-    private String chatId;
+    private final Map<String, GameSession> CURRENT_SESSIONS = new ConcurrentHashMap<>();
     Bot bot = Bot.getBotInstance();
     Keyboard keyboard = Keyboard.getKeyboardInstance();
     CheckMessage checkMessage = CheckMessage.getCheckMessageInstance();
@@ -30,6 +29,7 @@ public class Listener implements Runnable {
     public void run() {
         Message message;
         String text;
+        String chatId;
         while (true) {
             try {
                 message = bot.getMESSAGES().take();
@@ -44,7 +44,7 @@ public class Listener implements Runnable {
                     bot.sendMessage(chatId, "Эй, сперва закончите текущий раунд!",
                             keyboard.getKeyboard(CURRENT_SESSIONS.get(chatId).getUSED_CHARACTER()));
                 else
-                    createNewGameSession();
+                    createNewGameSession(chatId);
             } else if (CURRENT_SESSIONS.containsKey(chatId)) {
                 if (checkMessage.checkCharacter(text)) {
                     CURRENT_SESSIONS.get(chatId).makeAMove(text.toLowerCase());
@@ -56,7 +56,7 @@ public class Listener implements Runnable {
         }
     }
 
-    private void createNewGameSession() {
+    private void createNewGameSession(String chatId) {
         CURRENT_SESSIONS.put(chatId, new GameSession(dictionary.wordChoice(), chatId));
         log.info("Start new game. Quantity of players: " + CURRENT_SESSIONS.size());
     }

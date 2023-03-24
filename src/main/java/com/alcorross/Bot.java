@@ -18,6 +18,8 @@ public class Bot extends TelegramLongPollingBot {
     private final LinkedBlockingQueue<Message> MESSAGES = new LinkedBlockingQueue<>();
 
     private static Bot botInstance;
+    private static final String BOT_NAME = System.getenv("HANG_NAME");
+    private static final String TOKEN = System.getenv("HANG_TOKEN");
 
     private Bot(String botToken) {
         super(botToken);
@@ -34,11 +36,11 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return System.getenv("HANG_NAME");
+        return BOT_NAME;
     }
 
     public static Bot getBotInstance() {
-        if (botInstance == null) botInstance = new Bot(System.getenv("HANG_TOKEN"));
+        if (botInstance == null) botInstance = new Bot(TOKEN);
         return botInstance;
     }
 

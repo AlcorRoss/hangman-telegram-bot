@@ -15,6 +15,7 @@ import java.util.Random;
 public class Dictionary {
     private final List<String> DICTIONARY = new ArrayList<>();
     private static Dictionary dictionaryInstance;
+    private static final Random RANDOM = new Random();
 
     private Dictionary() {
     }
@@ -24,7 +25,7 @@ public class Dictionary {
         return dictionaryInstance;
     }
 
-    public void readDictionary() {
+    public void readDictionary() throws DictionaryLoadException {
         String line;
         try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("dictionary.txt")) {
             if (is == null) throw new NullPointerException("File not found: dictionary.txt");
@@ -32,12 +33,11 @@ public class Dictionary {
             while ((line = br.readLine()) != null) DICTIONARY.add(line);
         } catch (NullPointerException | IOException e) {
             log.error("Failed to read file", e);
+            throw new DictionaryLoadException("Failed to load dictionary");
         }
     }
 
     public String wordChoice() {
-        Random r = new Random();
-        if (DICTIONARY.isEmpty()) readDictionary();
-        return DICTIONARY.get(r.nextInt(0, DICTIONARY.size()));
+        return DICTIONARY.get(RANDOM.nextInt(0, DICTIONARY.size()));
     }
 }

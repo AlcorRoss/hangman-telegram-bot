@@ -13,7 +13,12 @@ import java.util.concurrent.TimeUnit;
 public class Main {
     public static void main(String[] args) {
         Bot bot = Bot.getBotInstance();
-        Dictionary.getDictionaryInstance().readDictionary();
+        try {
+            Dictionary.getDictionaryInstance().readDictionary();
+        } catch (DictionaryLoadException e) {
+            log.error(e.getMessage(), e);
+            System.exit(1);
+        }
         log.info("The dictionary has been loaded");
         Thread listenerThread = new Thread(Listener.getListenerInstance());
         listenerThread.setDaemon(true);
