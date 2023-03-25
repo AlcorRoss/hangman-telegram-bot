@@ -17,6 +17,7 @@ public class Listener implements Runnable {
     Keyboard keyboard = Keyboard.getKeyboardInstance();
     CheckMessage checkMessage = CheckMessage.getCheckMessageInstance();
     Dictionary dictionary = Dictionary.getDictionaryInstance();
+    Gameplay gameplay = Gameplay.getGameplayInstance();
 
     private Listener() {
     }
@@ -43,14 +44,14 @@ public class Listener implements Runnable {
             if (checkMessage.isCommand(text)) {
                 optGameSession.ifPresentOrElse(
                         session -> bot.sendMessage(chatId, "Эй, сперва закончите текущий раунд!",
-                                keyboard.getKeyboard(CURRENT_SESSIONS.get(chatId).getUSED_CHARACTER())),
+                                keyboard.getKeyboard(CURRENT_SESSIONS.get(chatId).getUsedCharacter())),
                         () -> createNewGameSession(chatId));
             } else if (optGameSession.isPresent()) {
                 if (checkMessage.checkCharacter(text)) {
-                    optGameSession.get().makeAMove(text.toLowerCase());
+                    gameplay.makeAMove(text.toLowerCase(), optGameSession.get());
                 } else {
                     bot.sendMessage(chatId, "Некорректный ввод! Введите букву",
-                            keyboard.getKeyboard(optGameSession.get().getUSED_CHARACTER()));
+                            keyboard.getKeyboard(optGameSession.get().getUsedCharacter()));
                 }
             }
         }
