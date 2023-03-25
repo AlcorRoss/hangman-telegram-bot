@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -29,7 +30,6 @@ public class Listener implements Runnable {
     public void run() {
         Message message;
         String text;
-        String chatId;
         while (true) {
             try {
                 message = bot.getMESSAGES().take();
@@ -37,20 +37,20 @@ public class Listener implements Runnable {
                 log.error("The thread was interrupted", e);
                 return;
             }
-            chatId = message.getChatId().toString();
+            final String chatId = message.getChatId().toString();
             text = message.getText();
+            Optional<GameSession> optGameSession = Optional.ofNullable(CURRENT_SESSIONS.get(chatId));
             if (checkMessage.isCommand(text)) {
-                if (CURRENT_SESSIONS.containsKey(chatId))
-                    bot.sendMessage(chatId, "Эй, сперва закончите текущий раунд!",
-                            keyboard.getKeyboard(CURRENT_SESSIONS.get(chatId).getUSED_CHARACTER()));
-                else
-                    createNewGameSession(chatId);
-            } else if (CURRENT_SESSIONS.containsKey(chatId)) {
+                optGameSession.ifPresentOrElse(
+                        session -> bot.sendMessage(chatId, "Эй, сперва закончите текущий раунд!",
+                                keyboard.getKeyboard(CURRENT_SESSIONS.get(chatId).getUSED_CHARACTER())),
+                        () -> createNewGameSession(chatId));
+            } else if (optGameSession.isPresent()) {
                 if (checkMessage.checkCharacter(text)) {
-                    CURRENT_SESSIONS.get(chatId).makeAMove(text.toLowerCase());
+                    optGameSession.get().makeAMove(text.toLowerCase());
                 } else {
                     bot.sendMessage(chatId, "Некорректный ввод! Введите букву",
-                            keyboard.getKeyboard(CURRENT_SESSIONS.get(chatId).getUSED_CHARACTER()));
+                            keyboard.getKeyboard(optGameSession.get().getUSED_CHARACTER()));
                 }
             }
         }
