@@ -1,4 +1,4 @@
-package com.alcorross;
+package com.alcorross.enums;
 
 public enum Pictures {
     ERR_0("""

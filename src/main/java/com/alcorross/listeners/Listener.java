@@ -1,5 +1,11 @@
-package com.alcorross;
+package com.alcorross.listeners;
 
+import com.alcorross.model.Bot;
+import com.alcorross.model.Dictionary;
+import com.alcorross.model.GameSession;
+import com.alcorross.services.CheckMessage;
+import com.alcorross.services.Gameplay;
+import com.alcorross.services.Keyboard;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Message;

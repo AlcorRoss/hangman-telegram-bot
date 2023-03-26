@@ -1,5 +1,6 @@
 package com.alcorross;
 
+import com.alcorross.model.Bot;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

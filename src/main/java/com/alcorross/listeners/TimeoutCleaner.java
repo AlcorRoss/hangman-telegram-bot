@@ -1,5 +1,8 @@
-package com.alcorross;
+package com.alcorross.listeners;
 
+import com.alcorross.model.Bot;
+import com.alcorross.model.GameSession;
+import com.alcorross.services.Keyboard;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
