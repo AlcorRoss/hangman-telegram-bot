@@ -1,7 +1,6 @@
-package com.alcorross;
+package com.alcorross.model;
 
 import com.alcorross.exceptions.DictionaryLoadException;
-import com.alcorross.model.Dictionary;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;
 
