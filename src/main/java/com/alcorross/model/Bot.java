@@ -15,7 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Bot extends TelegramLongPollingBot {
 
     @Getter
-    private final LinkedBlockingQueue<Message> MESSAGES = new LinkedBlockingQueue<>();
+    private final LinkedBlockingQueue<Message> messages = new LinkedBlockingQueue<>();
 
     private static Bot botInstance;
     private static final String BOT_NAME = System.getenv("HANG_NAME");
@@ -28,7 +28,7 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         try {
-            MESSAGES.put(update.getMessage());
+            messages.put(update.getMessage());
         } catch (InterruptedException e) {
             log.error("The thread was interrupted", e);
         }

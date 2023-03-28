@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Listener implements Runnable {
     private static Listener listenerInstance;
     @Getter
-    private final Map<String, GameSession> CURRENT_SESSIONS = new ConcurrentHashMap<>();
+    private final Map<String, GameSession> currentSessions = new ConcurrentHashMap<>();
     Bot bot = Bot.getBotInstance();
     Keyboard keyboard = Keyboard.getKeyboardInstance();
     CheckMessage checkMessage = CheckMessage.getCheckMessageInstance();
@@ -39,18 +39,18 @@ public class Listener implements Runnable {
         String text;
         while (true) {
             try {
-                message = bot.getMESSAGES().take();
+                message = bot.getMessages().take();
             } catch (InterruptedException e) {
                 log.error("The thread was interrupted", e);
                 return;
             }
             final String chatId = message.getChatId().toString();
             text = message.getText();
-            Optional<GameSession> optGameSession = Optional.ofNullable(CURRENT_SESSIONS.get(chatId));
+            Optional<GameSession> optGameSession = Optional.ofNullable(currentSessions.get(chatId));
             if (checkMessage.isCommand(text)) {
                 optGameSession.ifPresentOrElse(
                         session -> bot.sendMessage(chatId, "Эй, сперва закончите текущий раунд!",
-                                keyboard.getKeyboard(CURRENT_SESSIONS.get(chatId).getUsedCharacter())),
+                                keyboard.getKeyboard(currentSessions.get(chatId).getUsedCharacter())),
                         () -> createNewGameSession(chatId));
             } else if (optGameSession.isPresent()) {
                 if (checkMessage.checkCharacter(text)) {
@@ -64,7 +64,7 @@ public class Listener implements Runnable {
     }
 
     private void createNewGameSession(String chatId) {
-        CURRENT_SESSIONS.put(chatId, new GameSession(dictionary.wordChoice(), chatId));
-        log.info("Start new game. Quantity of players: " + CURRENT_SESSIONS.size());
+        currentSessions.put(chatId, new GameSession(dictionary.wordChoice(), chatId));
+        log.info("Start new game. Quantity of players: " + currentSessions.size());
     }
 }

@@ -26,7 +26,7 @@ public class TimeoutCleaner implements Runnable {
 
     @Override
     public void run() {
-        Map<String, GameSession> currentSessions = Listener.getListenerInstance().getCURRENT_SESSIONS();
+        Map<String, GameSession> currentSessions = Listener.getListenerInstance().getCurrentSessions();
         Set<String> tempSet = new HashSet<>(currentSessions.keySet());
         currentSessions.entrySet()
                 .removeIf(entry -> System.currentTimeMillis() - entry.getValue().getTimeOfLastChange() > 60000);

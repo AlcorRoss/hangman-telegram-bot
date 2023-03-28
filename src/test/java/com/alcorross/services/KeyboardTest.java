@@ -1,6 +1,5 @@
-package com.alcorross;
+package com.alcorross.services;
 
-import com.alcorross.services.Keyboard;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,11 +10,11 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.*;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class KeyboardTest {
-    private static final Keyboard keyboard = Keyboard.getKeyboardInstance();
-    private static final Map<Set<String>, ReplyKeyboardMarkup> mapTestKeyboard = new HashMap<>();
+    private static final Keyboard KEYBOARD = Keyboard.getKeyboardInstance();
+    private static final Map<Set<String>, ReplyKeyboardMarkup> MAP_TEST_KEYBOARD = new HashMap<>();
 
     static Stream<Set<String>> keyboardProviderFactory() {
         Random r = new Random();
@@ -45,9 +44,16 @@ class KeyboardTest {
             }
             if (kRow.size() > 0) keyboardRows.add(kRow);
             kb.setKeyboard(keyboardRows);
-            mapTestKeyboard.put(usedCharacter, kb);
+            MAP_TEST_KEYBOARD.put(usedCharacter, kb);
         }
-        return mapTestKeyboard.keySet().stream();
+        return MAP_TEST_KEYBOARD.keySet().stream();
+    }
+
+    @Test
+    void getKeyboardInstanceInstanceShouldReturnKeyboard() {
+        assertThat(Keyboard.getKeyboardInstance())
+                .withFailMessage("getKeyboardInstance() should return Keyboard")
+                .isInstanceOf(Keyboard.class);
     }
 
     @Test
@@ -61,14 +67,15 @@ class KeyboardTest {
         kb.setResizeKeyboard(true);
         kb.setOneTimeKeyboard(false);
         kb.setKeyboard(keyboardRows);
-        assertEquals(kb, keyboard.getNewGameKeyboard(), "newGameKeyboard should return a keyboard " +
-                "equal to kb");
+        assertThat(KEYBOARD.getNewGameKeyboard())
+                .withFailMessage("newGameKeyboard should return a keyboard equal to kb").isEqualTo(kb);
     }
 
     @ParameterizedTest
     @MethodSource("keyboardProviderFactory")
     void keyboardShouldBeEqualTestKeyboard(Set<String> unusedCharacter) {
-        assertEquals(mapTestKeyboard.get(unusedCharacter), keyboard.getKeyboard(unusedCharacter), "getKeyboard" +
-                " should return a keyboard equal to the keyboard from mapTestKeyboard");
+        assertThat(KEYBOARD.getKeyboard(unusedCharacter)).withFailMessage("getKeyboard should return" +
+                        " a keyboard equal to the keyboard from mapTestKeyboard")
+                .isEqualTo(MAP_TEST_KEYBOARD.get(unusedCharacter));
     }
 }

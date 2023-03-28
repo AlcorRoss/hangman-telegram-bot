@@ -45,12 +45,12 @@ public class Gameplay {
             bot.sendMessage(gameSession.getChatId(), Pictures.ERR_6 + "\r\n" + "Отгаданные буквы: "
                     + "\r\n" + gameSession.getSt() + "\r\n" + "Слово: " + gameSession.getWord() + "\r\n"
                     + "Поражение! Сыграть еще раз - /start", keyboard.getNewGameKeyboard());
-            Listener.getListenerInstance().getCURRENT_SESSIONS().remove(gameSession.getChatId());
+            Listener.getListenerInstance().getCurrentSessions().remove(gameSession.getChatId());
             log.info("The game has been completed.");
         } else if (gameSession.getWinCounter() == gameSession.getWord().length()) {
             bot.sendMessage(gameSession.getChatId(), "Слово: " + gameSession.getWord() + "\r\n" + "Победа!"
                     + "\r\n" + "Сыграть еще раз - /start", keyboard.getNewGameKeyboard());
-            Listener.getListenerInstance().getCURRENT_SESSIONS().remove(gameSession.getChatId());
+            Listener.getListenerInstance().getCurrentSessions().remove(gameSession.getChatId());
             log.info("The game has been completed.");
         } else {
             String temp = "\r\n" + "Допущено ошибок: " + gameSession.getLoseCounter() + "\r\n" + "Отгаданные буквы: "

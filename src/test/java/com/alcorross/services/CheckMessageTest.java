@@ -1,6 +1,6 @@
-package com.alcorross;
+package com.alcorross.services;
 
-import com.alcorross.services.CheckMessage;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -10,11 +10,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CheckMessageTest {
-    private static final CheckMessage checkMessage = CheckMessage.getCheckMessageInstance();
+    private static final CheckMessage CHECK_MESSAGE = CheckMessage.getCheckMessageInstance();
 
     static Stream<String> falseArgsProviderFactory() {
         List<String> argsList = new ArrayList<>();
@@ -46,27 +45,37 @@ class CheckMessageTest {
         return argsList.stream();
     }
 
+    @Test
+    void getCheckMessageInstanceShouldReturnCheckMessage() {
+        assertThat(CheckMessage.getCheckMessageInstance())
+                .withFailMessage("getCheckMessageInstance() should return CheckMessage")
+                .isInstanceOf(CheckMessage.class);
+    }
+
     @ParameterizedTest
     @MethodSource("trueArgsProviderFactory")
     void checkCharacterShouldReturnTrue(String line) {
-        assertTrue(checkMessage.checkCharacter(line), "The method must return true for the value " + line);
+        assertThat(CHECK_MESSAGE.checkCharacter(line))
+                .withFailMessage("The method must return true for the value " + line).isTrue();
     }
 
     @ParameterizedTest
     @MethodSource("falseArgsProviderFactory")
     void checkCharacterShouldReturnFalse(String line) {
-        assertFalse(checkMessage.checkCharacter(line), "The method must return false for the value " + line);
+        assertThat(CHECK_MESSAGE.checkCharacter(line))
+                .withFailMessage("The method must return false for the value " + line).isFalse();
     }
 
     @ParameterizedTest
     @MethodSource("falseArgsProviderFactory")
     void isCommandShouldReturnFalse(String line) {
-        assertFalse(checkMessage.isCommand(line), "The method must return false for the value " + line);
+        assertThat(CHECK_MESSAGE.isCommand(line))
+                .withFailMessage("The method must return false for the value " + line).isFalse();
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"/start", "Новая игра"})
     void isCommandShouldReturnTrue(String line) {
-        assertTrue(checkMessage.isCommand(line));
+        assertThat(CHECK_MESSAGE.isCommand(line)).withFailMessage("The method must return true").isTrue();
     }
 }

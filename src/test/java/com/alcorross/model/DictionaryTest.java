@@ -3,6 +3,7 @@ package com.alcorross.model;
 import com.alcorross.exceptions.DictionaryLoadException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,6 +31,13 @@ class DictionaryTest {
     @BeforeAll
     static void loadDictionary() throws DictionaryLoadException {
         DICT.readDictionary();
+    }
+
+    @Test
+    void getDictionaryInstanceShouldReturnDictionary() {
+        assertThat(Dictionary.getDictionaryInstance())
+                .withFailMessage("getDictionaryInstance() should return Dictionary")
+                .isInstanceOf(Dictionary.class);
     }
 
     @RepeatedTest(10000)
