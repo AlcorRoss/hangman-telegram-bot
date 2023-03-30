@@ -43,19 +43,22 @@ public class GameplayTest {
 
     @Test
     void sendAnswerShouldRemoveGameSessionFromTheCurrentSessionWhenDefeated() {
+        int size = LISTENER.getCurrentSessions().size() - 1;
         for (int i = 0; i < 6; i++) GAMEPLAY.makeAMove(String.valueOf(i), LISTENER.getCurrentSessions().get("2"));
         assertThat(LISTENER.getCurrentSessions().size())
                 .withFailMessage("The size of the CurrentSessions should be equal to 2")
-                .isEqualTo(2);
+                .isEqualTo(size);
     }
 
     @Test
     void sendAnswerShouldRemoveGameSessionFromTheCurrentSessionWhenWin() {
-        GAMEPLAY.makeAMove("B", LISTENER.getCurrentSessions().get("1"));
-        GAMEPLAY.makeAMove("C", LISTENER.getCurrentSessions().get("1"));
+        int size = LISTENER.getCurrentSessions().size() - 1;
+        GAMEPLAY.makeAMove("A", LISTENER.getCurrentSessions().get("3"));
+        GAMEPLAY.makeAMove("B", LISTENER.getCurrentSessions().get("3"));
+        GAMEPLAY.makeAMove("C", LISTENER.getCurrentSessions().get("3"));
         assertThat(LISTENER.getCurrentSessions().size())
                 .withFailMessage("The size of the CurrentSessions should be equal to 1")
-                .isEqualTo(1);
+                .isEqualTo(size);
     }
 
     @AfterAll
