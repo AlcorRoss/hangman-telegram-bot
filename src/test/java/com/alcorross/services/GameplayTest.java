@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class GameplayTest {
 
-    private static final Gameplay GAMEPLAY = Gameplay.getGameplayInstance();
+    private final Gameplay gameplay = Gameplay.getGameplayInstance();
     private static final Listener LISTENER = Listener.getListenerInstance();
 
 
@@ -31,8 +31,8 @@ public class GameplayTest {
 
     @Test
     void makeAMoveShouldMakeLoseCounterAndWinCounterEqualToOne() {
-        GAMEPLAY.makeAMove("1", LISTENER.getCurrentSessions().get("1"));
-        GAMEPLAY.makeAMove("A", LISTENER.getCurrentSessions().get("1"));
+        gameplay.makeAMove("1", LISTENER.getCurrentSessions().get("1"));
+        gameplay.makeAMove("A", LISTENER.getCurrentSessions().get("1"));
         assertAll(
                 () -> assertThat(LISTENER.getCurrentSessions().get("1").getLoseCounter())
                         .withFailMessage("The loseCounter should be equal to 1").isEqualTo(1),
@@ -44,7 +44,7 @@ public class GameplayTest {
     @Test
     void sendAnswerShouldRemoveGameSessionFromTheCurrentSessionWhenDefeated() {
         int size = LISTENER.getCurrentSessions().size() - 1;
-        for (int i = 0; i < 6; i++) GAMEPLAY.makeAMove(String.valueOf(i), LISTENER.getCurrentSessions().get("2"));
+        for (int i = 0; i < 6; i++) gameplay.makeAMove(String.valueOf(i), LISTENER.getCurrentSessions().get("2"));
         assertThat(LISTENER.getCurrentSessions().size())
                 .withFailMessage("The size of the CurrentSessions should be equal to 2")
                 .isEqualTo(size);
@@ -53,9 +53,9 @@ public class GameplayTest {
     @Test
     void sendAnswerShouldRemoveGameSessionFromTheCurrentSessionWhenWin() {
         int size = LISTENER.getCurrentSessions().size() - 1;
-        GAMEPLAY.makeAMove("A", LISTENER.getCurrentSessions().get("3"));
-        GAMEPLAY.makeAMove("B", LISTENER.getCurrentSessions().get("3"));
-        GAMEPLAY.makeAMove("C", LISTENER.getCurrentSessions().get("3"));
+        gameplay.makeAMove("A", LISTENER.getCurrentSessions().get("3"));
+        gameplay.makeAMove("B", LISTENER.getCurrentSessions().get("3"));
+        gameplay.makeAMove("C", LISTENER.getCurrentSessions().get("3"));
         assertThat(LISTENER.getCurrentSessions().size())
                 .withFailMessage("The size of the CurrentSessions should be equal to 1")
                 .isEqualTo(size);

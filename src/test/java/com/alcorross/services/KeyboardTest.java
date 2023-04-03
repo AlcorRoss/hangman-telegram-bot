@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class KeyboardTest {
-    private static final Keyboard KEYBOARD = Keyboard.getKeyboardInstance();
+    private final Keyboard keyboard = Keyboard.getKeyboardInstance();
     private static final Map<Set<String>, ReplyKeyboardMarkup> MAP_TEST_KEYBOARD = new HashMap<>();
 
     static Stream<Set<String>> keyboardProviderFactory() {
@@ -67,14 +67,14 @@ class KeyboardTest {
         kb.setResizeKeyboard(true);
         kb.setOneTimeKeyboard(false);
         kb.setKeyboard(keyboardRows);
-        assertThat(KEYBOARD.getNewGameKeyboard())
+        assertThat(keyboard.getNewGameKeyboard())
                 .withFailMessage("newGameKeyboard should return a keyboard equal to kb").isEqualTo(kb);
     }
 
     @ParameterizedTest
     @MethodSource("keyboardProviderFactory")
     void keyboardShouldBeEqualTestKeyboard(Set<String> unusedCharacter) {
-        assertThat(KEYBOARD.getKeyboard(unusedCharacter)).withFailMessage("getKeyboard should return" +
+        assertThat(keyboard.getKeyboard(unusedCharacter)).withFailMessage("getKeyboard should return" +
                         " a keyboard equal to the keyboard from mapTestKeyboard")
                 .isEqualTo(MAP_TEST_KEYBOARD.get(unusedCharacter));
     }

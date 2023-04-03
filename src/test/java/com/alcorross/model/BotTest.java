@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BotTest {
-    private static final Bot BOT = Bot.getBotInstance();
+    private final Bot bot = Bot.getBotInstance();
 
     @Test
     void getBotInstanceShouldReturnBot() {
@@ -15,6 +15,6 @@ class BotTest {
 
     @Test
     void botUsernameShouldNotBeEmpty() {
-        assertThat(BOT.getBotUsername()).withFailMessage("Bot username should not be empty").isNotEmpty();
+        assertThat(bot.getBotUsername()).withFailMessage("Bot username should not be empty").isNotEmpty();
     }
 }

@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CheckMessageTest {
-    private static final CheckMessage CHECK_MESSAGE = CheckMessage.getCheckMessageInstance();
+    private final CheckMessage checkMessage = CheckMessage.getCheckMessageInstance();
 
     static Stream<String> falseArgsProviderFactory() {
         List<String> argsList = new ArrayList<>();
@@ -55,27 +55,27 @@ class CheckMessageTest {
     @ParameterizedTest
     @MethodSource("trueArgsProviderFactory")
     void checkCharacterShouldReturnTrue(String line) {
-        assertThat(CHECK_MESSAGE.checkCharacter(line))
+        assertThat(checkMessage.checkCharacter(line))
                 .withFailMessage("The method must return true for the value " + line).isTrue();
     }
 
     @ParameterizedTest
     @MethodSource("falseArgsProviderFactory")
     void checkCharacterShouldReturnFalse(String line) {
-        assertThat(CHECK_MESSAGE.checkCharacter(line))
+        assertThat(checkMessage.checkCharacter(line))
                 .withFailMessage("The method must return false for the value " + line).isFalse();
     }
 
     @ParameterizedTest
     @MethodSource("falseArgsProviderFactory")
     void isCommandShouldReturnFalse(String line) {
-        assertThat(CHECK_MESSAGE.isCommand(line))
+        assertThat(checkMessage.isCommand(line))
                 .withFailMessage("The method must return false for the value " + line).isFalse();
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"/start", "Новая игра"})
     void isCommandShouldReturnTrue(String line) {
-        assertThat(CHECK_MESSAGE.isCommand(line)).withFailMessage("The method must return true").isTrue();
+        assertThat(checkMessage.isCommand(line)).withFailMessage("The method must return true").isTrue();
     }
 }
