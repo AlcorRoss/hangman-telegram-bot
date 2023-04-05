@@ -61,6 +61,17 @@ public class GameplayTest {
                 .isEqualTo(size);
     }
 
+    @Test
+    void makeAMoveShouldNotIncreaseLoseCounterAndWinCounter() {
+        GameSession gameSession = new GameSession("abc", "1");
+        gameSession.getUsedCharacter().add("t");
+        for (int i = 0; i < 50; i++) gameplay.makeAMove("t", gameSession);
+        assertAll(
+                () -> assertThat(gameSession.getWinCounter()).isEqualTo(0),
+                () -> assertThat(gameSession.getLoseCounter()).isEqualTo(0)
+        );
+    }
+
     @AfterAll
     static void clearCurrentSessions() {
         LISTENER.getCurrentSessions().clear();
