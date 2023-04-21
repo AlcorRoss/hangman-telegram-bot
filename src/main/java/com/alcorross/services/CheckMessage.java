@@ -1,5 +1,7 @@
 package com.alcorross.services;
 
+import com.alcorross.services.commands.Command;
+import com.alcorross.services.commands.Start;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.regex.Matcher;
@@ -19,8 +21,15 @@ public class CheckMessage {
         return checkMessageInstance;
     }
 
-    public boolean isCommand(String line) { //TODO должен возвращать Command содержащий объект класса команды
-        return line.equals("/start") || line.equals("Новая игра");
+    public Command isCommand(String line) {
+        switch (line) {
+            case ("/start"), ("Новая игра") -> {
+                return Start.getStartInstance();
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 
     public boolean checkCharacter(String character) {

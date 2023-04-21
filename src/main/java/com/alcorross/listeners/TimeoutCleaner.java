@@ -2,6 +2,7 @@ package com.alcorross.listeners;
 
 import com.alcorross.model.Bot;
 import com.alcorross.model.GameSession;
+import com.alcorross.services.Gameplay;
 import com.alcorross.services.Keyboard;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,8 +14,8 @@ import java.util.Set;
 public class TimeoutCleaner implements Runnable {
     private static TimeoutCleaner timeoutCleanerInstance;
     private static final String MESSAGE = "Кажется, вы обо мне забыли... Тогда до новых встреч! " +
-            "Полагаю есть истории, где с подобного начиналось восстание машин..."
-            + "\r\n" + "Сыграть еще раз - /start";
+                                          "Полагаю есть истории, где с подобного начиналось восстание машин..."
+                                          + "\r\n" + "Сыграть еще раз - /start";
 
     private TimeoutCleaner() {
     }
@@ -26,7 +27,7 @@ public class TimeoutCleaner implements Runnable {
 
     @Override
     public void run() {
-        Map<String, GameSession> currentSessions = Listener.getListenerInstance().getCurrentSessions();
+        Map<String, GameSession> currentSessions = Gameplay.getGameplayInstance().getCurrentSessions();
         Set<String> tempSet = new HashSet<>(currentSessions.keySet());
         currentSessions.entrySet()
                 .removeIf(entry -> System.currentTimeMillis() - entry.getValue().getTimeOfLastChange() > 60000);
