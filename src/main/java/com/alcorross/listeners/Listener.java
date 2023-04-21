@@ -44,6 +44,7 @@ public class Listener implements Runnable {
                 log.error("The thread was interrupted", e);
                 return;
             }
+            //TODO Получать имя и фамилию и передавать в GameSession, чтобы потом добавлять в БД System.out.println(message.getFrom().getFirstName());
             final String chatId = message.getChatId().toString();
             text = message.getText();
             Optional<GameSession> optGameSession = Optional.ofNullable(currentSessions.get(chatId));
