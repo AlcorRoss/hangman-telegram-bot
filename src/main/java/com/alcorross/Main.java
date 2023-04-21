@@ -1,8 +1,10 @@
-package com.alcorross.model;
+package com.alcorross;
 
 import com.alcorross.exceptions.DictionaryLoadException;
 import com.alcorross.listeners.Listener;
 import com.alcorross.listeners.TimeoutCleaner;
+import com.alcorross.model.Bot;
+import com.alcorross.model.Dictionary;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
