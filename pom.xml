@@ -4,7 +4,7 @@
 
     <groupId>com.alcorross</groupId>
     <artifactId>hangman-telegram-bot</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
 
     <properties>
         <maven.compiler.source>18</maven.compiler.source>
@@ -23,7 +23,7 @@
         <connection>scm:git:git@github.com:AlcorRoss/hangman-telegram-bot.git</connection>
         <developerConnection>scm:git:git@github.com:AlcorRoss/hangman-telegram-bot.git</developerConnection>
         <url>https://github.com/AlcorRoss/hangman-telegram-bot</url>
-        <tag>HEAD</tag>
+        <tag>hangman-telegram-bot-1.1.1</tag>
     </scm>
 
     <dependencies>
