@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Listener implements Runnable {
     private static Listener listenerInstance;
     @Getter
-    private final Map<String, GameSession> currentSessions = new ConcurrentHashMap<>();
+    private final Map<String, GameSession> currentSessions = new ConcurrentHashMap<>(); //TODO Переместить в Gameplay
     Bot bot = Bot.getBotInstance();
     Keyboard keyboard = Keyboard.getKeyboardInstance();
     CheckMessage checkMessage = CheckMessage.getCheckMessageInstance();

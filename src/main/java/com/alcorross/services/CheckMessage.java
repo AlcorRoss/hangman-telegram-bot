@@ -19,7 +19,7 @@ public class CheckMessage {
         return checkMessageInstance;
     }
 
-    public boolean isCommand(String line) {
+    public boolean isCommand(String line) { //TODO должен возвращать Command содержащий объект класса команды
         return line.equals("/start") || line.equals("Новая игра");
     }
 

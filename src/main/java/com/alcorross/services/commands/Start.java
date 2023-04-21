@@ -4,6 +4,7 @@ import com.alcorross.listeners.Listener;
 import com.alcorross.model.Dictionary;
 import com.alcorross.model.GameSession;
 import lombok.extern.slf4j.Slf4j;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Slf4j
 public class Start implements Command {
@@ -21,7 +22,7 @@ public class Start implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(Message message) {
 
     }
 
