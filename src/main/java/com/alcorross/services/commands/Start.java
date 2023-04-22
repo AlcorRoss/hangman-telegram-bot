@@ -29,17 +29,17 @@ public class Start implements Command {
 
     @Override
     public void execute(Message message) {
-        //TODO Получать имя и фамилию и передавать в новую GameSession, чтобы потом добавлять в БД System.out.println(message.getFrom().getFirstName());
         String chatId = message.getChatId().toString();
         Optional<GameSession> optGameSession = Optional.ofNullable(gameplay.getCurrentSessions().get(chatId));
         optGameSession.ifPresentOrElse(
                 session -> bot.sendMessage(chatId, "Эй, сперва закончите текущий раунд!",
                         keyboard.getKeyboard(gameplay.getCurrentSessions().get(chatId).getUsedCharacter())),
-                () -> createNewGameSession(chatId));
+                () -> createNewGameSession(message));
     }
 
-    private void createNewGameSession(String chatId) {
-        gameplay.getCurrentSessions().put(chatId, new GameSession(dictionary.wordChoice(), chatId));
+    private void createNewGameSession(Message message) {
+        gameplay.getCurrentSessions().put(message.getChatId().toString(),
+                new GameSession(dictionary.wordChoice(), message));
         log.info("Start new game. Quantity of players: " + gameplay.getCurrentSessions().size());
     }
 }
