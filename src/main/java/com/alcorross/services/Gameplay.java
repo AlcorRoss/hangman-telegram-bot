@@ -47,35 +47,44 @@ public class Gameplay {
     }
 
     private void sendAnswer(GameSession gameSession) {
+        String messagePattern;
         if (gameSession.getLoseCounter() == 6) { //TODO запись результатов в БД
-            bot.sendMessage(gameSession.getChatId(),
-                    Pictures.ERR_6 + "\r\n" + "Отгаданные буквы: "
-                    + "\r\n" + gameSession.getSt() + "\r\n" + "Слово: " + gameSession.getWord() + "\r\n"
-                    + "Поражение! Сыграть еще раз - /start", keyboard.getNewGameKeyboard());
+            messagePattern = """
+                    %s
+                    Поражение!
+                    Отгаданные буквы: %s
+                    Слово: %s
+                    Сыграть еще раз - /start
+                    """.formatted(Pictures.ERR_6, gameSession.getSt(), gameSession.getWord());
+            bot.sendMessage(gameSession.getChatId(), messagePattern, keyboard.getNewGameKeyboard());
             currentSessions.remove(gameSession.getChatId());
             log.info("The game has been completed.");
         } else if (gameSession.getWinCounter() == gameSession.getWord().length()) { //TODO запись результатов в БД
-            bot.sendMessage(gameSession.getChatId(), "Слово: " + gameSession.getWord() + "\r\n" + "Победа!"
-                                                     + "\r\n" + "Сыграть еще раз - /start", keyboard.getNewGameKeyboard());
+            messagePattern = """
+                    Победа!
+                    Слово: %s
+                    Сыграть еще раз - /start
+                    """.formatted(gameSession.getWord());
+            bot.sendMessage(gameSession.getChatId(), messagePattern, keyboard.getNewGameKeyboard());
             currentSessions.remove(gameSession.getChatId());
             log.info("The game has been completed.");
         } else {
-            String temp = "\r\n" + "Допущено ошибок: " + gameSession.getLoseCounter() + "\r\n" + "Отгаданные буквы: "
-                          + "\r\n" + gameSession.getSt() + "\r\n" + "Введите букву";
+            messagePattern = """
+                    %s
+                    Допущено ошибок: %s
+                    Отгаданные буквы: %s
+                    Введите букву
+                    """;
             switch (gameSession.getLoseCounter()) {
-                case 0 -> bot.sendMessage(gameSession.getChatId(),
-                        Pictures.ERR_0 + temp, keyboard.getKeyboard(gameSession.getUsedCharacter()));
-                case 1 -> bot.sendMessage(gameSession.getChatId(),
-                        Pictures.ERR_1 + temp, keyboard.getKeyboard(gameSession.getUsedCharacter()));
-                case 2 -> bot.sendMessage(gameSession.getChatId(),
-                        Pictures.ERR_2 + temp, keyboard.getKeyboard(gameSession.getUsedCharacter()));
-                case 3 -> bot.sendMessage(gameSession.getChatId(),
-                        Pictures.ERR_3 + temp, keyboard.getKeyboard(gameSession.getUsedCharacter()));
-                case 4 -> bot.sendMessage(gameSession.getChatId(),
-                        Pictures.ERR_4 + temp, keyboard.getKeyboard(gameSession.getUsedCharacter()));
-                case 5 -> bot.sendMessage(gameSession.getChatId(),
-                        Pictures.ERR_5 + temp, keyboard.getKeyboard(gameSession.getUsedCharacter()));
+                case 0 -> messagePattern = messagePattern.formatted(Pictures.ERR_0, 0, gameSession.getSt());
+                case 1 -> messagePattern = messagePattern.formatted(Pictures.ERR_1, 1, gameSession.getSt());
+                case 2 -> messagePattern = messagePattern.formatted(Pictures.ERR_2, 2, gameSession.getSt());
+                case 3 -> messagePattern = messagePattern.formatted(Pictures.ERR_3, 3, gameSession.getSt());
+                case 4 -> messagePattern = messagePattern.formatted(Pictures.ERR_4, 4, gameSession.getSt());
+                case 5 -> messagePattern = messagePattern.formatted(Pictures.ERR_5, 5, gameSession.getSt());
             }
+            bot.sendMessage(gameSession.getChatId(), messagePattern,
+                    keyboard.getKeyboard(gameSession.getUsedCharacter()));
             gameSession.setTimeOfLastChange(System.currentTimeMillis());
         }
     }
