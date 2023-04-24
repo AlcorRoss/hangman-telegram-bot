@@ -3,9 +3,9 @@ package com.alcorross.listeners;
 import com.alcorross.model.Bot;
 import com.alcorross.model.GameSession;
 import com.alcorross.services.CheckMessage;
+import com.alcorross.services.CommandHandler;
 import com.alcorross.services.Gameplay;
 import com.alcorross.services.Keyboard;
-import com.alcorross.services.commands.Command;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
@@ -18,6 +18,7 @@ public class Listener implements Runnable {
     Keyboard keyboard = Keyboard.getKeyboardInstance();
     CheckMessage checkMessage = CheckMessage.getCheckMessageInstance();
     Gameplay gameplay = Gameplay.getGameplayInstance();
+    CommandHandler commandHandler = CommandHandler.getCommandHandlerInstance();
 
     private Listener() {
     }
@@ -32,7 +33,6 @@ public class Listener implements Runnable {
         Message message;
         String chatId;
         String text;
-        Command command;
         while (true) {
             try {
                 message = bot.getMessages().take();
@@ -41,9 +41,8 @@ public class Listener implements Runnable {
                 return;
             }
             text = message.getText();
-            command = checkMessage.isCommand(text);
-            if (command != null) {
-                command.execute(message);
+            if (checkMessage.isCommand(text)) {
+                commandHandler.getCommand(text).execute(message);
                 continue;
             }
             chatId = message.getChatId().toString();

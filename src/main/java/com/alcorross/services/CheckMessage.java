@@ -1,17 +1,18 @@
 package com.alcorross.services;
 
-import com.alcorross.services.commands.Command;
-import com.alcorross.services.commands.Start;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
-public class CheckMessage {
+public final class CheckMessage {
 
     private static CheckMessage checkMessageInstance;
     private static final Pattern PATTERN = Pattern.compile("[а-яёА-ЯЁ]+");
+    private static final List<String> COMMAND_LIST = new ArrayList<>(List.of("/Start", "Новая игра"));
 
     private CheckMessage() {
     }
@@ -21,15 +22,8 @@ public class CheckMessage {
         return checkMessageInstance;
     }
 
-    public Command isCommand(String line) {
-        switch (line) {
-            case ("/start"), ("Новая игра") -> {
-                return Start.getStartInstance();
-            }
-            default -> {
-                return null;
-            }
-        }
+    public boolean isCommand(String line) {
+        return COMMAND_LIST.contains(line);
     }
 
     public boolean checkCharacter(String character) {
