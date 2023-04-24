@@ -1,13 +1,10 @@
 package com.alcorross.services;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Slf4j
 public final class CheckMessage {
 
     private static CheckMessage checkMessageInstance;
