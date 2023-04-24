@@ -14,16 +14,16 @@ import java.util.Optional;
 @Slf4j
 public class Listener implements Runnable {
     private static Listener listenerInstance;
-    Bot bot = Bot.getBotInstance();
-    Keyboard keyboard = Keyboard.getKeyboardInstance();
-    CheckMessage checkMessage = CheckMessage.getCheckMessageInstance();
-    Gameplay gameplay = Gameplay.getGameplayInstance();
-    CommandHandler commandHandler = CommandHandler.getCommandHandlerInstance();
+    Bot bot = Bot.getInstance();
+    Keyboard keyboard = Keyboard.getInstance();
+    CheckMessage checkMessage = CheckMessage.getInstance();
+    Gameplay gameplay = Gameplay.getInstance();
+    CommandHandler commandHandler = CommandHandler.getInstance();
 
     private Listener() {
     }
 
-    public static Listener getListenerInstance() {
+    public static Listener getInstance() {
         if (listenerInstance == null) listenerInstance = new Listener();
         return listenerInstance;
     }

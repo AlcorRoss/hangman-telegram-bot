@@ -15,7 +15,7 @@ public class Keyboard {
     private Keyboard() {
     }
 
-    public static Keyboard getKeyboardInstance() {
+    public static Keyboard getInstance() {
         if (keyboardInstance == null) keyboardInstance = new Keyboard();
         return keyboardInstance;
     }

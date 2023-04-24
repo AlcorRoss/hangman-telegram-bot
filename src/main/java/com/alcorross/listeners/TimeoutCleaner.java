@@ -20,20 +20,20 @@ public class TimeoutCleaner implements Runnable {
     private TimeoutCleaner() {
     }
 
-    public static TimeoutCleaner getTimeCleanInstance() {
+    public static TimeoutCleaner getInstance() {
         if (timeoutCleanerInstance == null) timeoutCleanerInstance = new TimeoutCleaner();
         return timeoutCleanerInstance;
     }
 
     @Override
     public void run() {
-        Map<String, GameSession> currentSessions = Gameplay.getGameplayInstance().getCurrentSessions();
+        Map<String, GameSession> currentSessions = Gameplay.getInstance().getCurrentSessions();
         Set<String> tempSet = new HashSet<>(currentSessions.keySet());
         currentSessions.entrySet()
                 .removeIf(entry -> System.currentTimeMillis() - entry.getValue().getTimeOfLastChange() > 60000);
         for (String s : tempSet) {
             if (!currentSessions.containsKey(s)) {
-                Bot.getBotInstance().sendMessage(s, MESSAGE, Keyboard.getKeyboardInstance().getNewGameKeyboard());
+                Bot.getInstance().sendMessage(s, MESSAGE, Keyboard.getInstance().getNewGameKeyboard());
                 log.info("The response waiting time has been exceeded. The game is forcibly completed.");
             }
         }

@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CheckMessageTest {
-    private final CheckMessage checkMessage = CheckMessage.getCheckMessageInstance();
+    private final CheckMessage checkMessage = CheckMessage.getInstance();
 
     static Stream<String> falseArgsProviderFactory() {
         List<String> argsList = new ArrayList<>();
@@ -47,7 +47,7 @@ class CheckMessageTest {
 
     @Test
     void getCheckMessageInstanceShouldReturnCheckMessage() {
-        assertThat(CheckMessage.getCheckMessageInstance())
+        assertThat(CheckMessage.getInstance())
                 .withFailMessage("getCheckMessageInstance() should return CheckMessage")
                 .isInstanceOf(CheckMessage.class);
     }

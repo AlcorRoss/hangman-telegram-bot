@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class DictionaryTest {
 
-    private static final Dictionary DICT = Dictionary.getDictionaryInstance();
+    private static final Dictionary DICT = Dictionary.getInstance();
     private static final List<String> TEST_LIST = new ArrayList<>();
 
     @BeforeAll
@@ -35,7 +35,7 @@ class DictionaryTest {
 
     @Test
     void getDictionaryInstanceShouldReturnDictionary() {
-        assertThat(Dictionary.getDictionaryInstance())
+        assertThat(Dictionary.getInstance())
                 .withFailMessage("getDictionaryInstance() should return Dictionary")
                 .isInstanceOf(Dictionary.class);
     }

@@ -17,15 +17,15 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class Main {
     public static void main(String[] args) {
-        Bot bot = Bot.getBotInstance();
+        Bot bot = Bot.getInstance();
         try {
-            Dictionary.getDictionaryInstance().readDictionary();
+            Dictionary.getInstance().readDictionary();
         } catch (DictionaryLoadException e) {
             log.error(e.getMessage(), e);
             System.exit(1);
         }
         log.info("The dictionary has been loaded");
-        Thread listenerThread = new Thread(Listener.getListenerInstance());
+        Thread listenerThread = new Thread(Listener.getInstance());
         listenerThread.setDaemon(true);
         listenerThread.start();
         log.info("The Listener is running");
@@ -37,7 +37,7 @@ public class Main {
             log.error("Failed to register the bot", e);
         }
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleWithFixedDelay(TimeoutCleaner.getTimeCleanInstance(), 10, 5, TimeUnit.SECONDS);
+        service.scheduleWithFixedDelay(TimeoutCleaner.getInstance(), 10, 5, TimeUnit.SECONDS);
         log.info("The TimeoutCleaner is running");
     }
 }

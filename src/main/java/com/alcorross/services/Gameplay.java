@@ -14,13 +14,13 @@ public class Gameplay {
     private static Gameplay gameplayInstance;
     @Getter
     private final Map<String, GameSession> currentSessions = new ConcurrentHashMap<>();
-    Keyboard keyboard = Keyboard.getKeyboardInstance();
-    Bot bot = Bot.getBotInstance();
+    Keyboard keyboard = Keyboard.getInstance();
+    Bot bot = Bot.getInstance();
 
     private Gameplay() {
     }
 
-    public static Gameplay getGameplayInstance() {
+    public static Gameplay getInstance() {
         if (gameplayInstance == null) gameplayInstance = new Gameplay();
         return gameplayInstance;
     }

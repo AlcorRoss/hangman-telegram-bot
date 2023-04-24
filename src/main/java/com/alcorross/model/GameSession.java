@@ -32,8 +32,8 @@ public class GameSession {
     private final Set<String> usedCharacter = new TreeSet<>();
     @Getter
     private final StringBuilder st = new StringBuilder();
-    Keyboard keyboard = Keyboard.getKeyboardInstance();
-    Bot bot = Bot.getBotInstance();
+    Keyboard keyboard = Keyboard.getInstance();
+    Bot bot = Bot.getInstance();
 
     public GameSession(String word, Message message) {
         this.word = word;

@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class KeyboardTest {
-    private final Keyboard keyboard = Keyboard.getKeyboardInstance();
+    private final Keyboard keyboard = Keyboard.getInstance();
     private static final Map<Set<String>, ReplyKeyboardMarkup> MAP_TEST_KEYBOARD = new HashMap<>();
 
     static Stream<Set<String>> keyboardProviderFactory() {
@@ -51,7 +51,7 @@ class KeyboardTest {
 
     @Test
     void getKeyboardInstanceInstanceShouldReturnKeyboard() {
-        assertThat(Keyboard.getKeyboardInstance())
+        assertThat(Keyboard.getInstance())
                 .withFailMessage("getKeyboardInstance() should return Keyboard")
                 .isInstanceOf(Keyboard.class);
     }

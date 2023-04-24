@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class GameplayTest {
 
-    private static final Gameplay GAMEPLAY = Gameplay.getGameplayInstance();
+    private static final Gameplay GAMEPLAY = Gameplay.getInstance();
 
     @BeforeAll
     static void createGameSession() {
@@ -21,7 +21,7 @@ public class GameplayTest {
 
     @Test
     void getGameplayInstanceInstanceShouldReturnGameplay() {
-        assertThat(Gameplay.getGameplayInstance())
+        assertThat(Gameplay.getInstance())
                 .withFailMessage("getGameplayInstance() should return Gameplay")
                 .isInstanceOf(Gameplay.class);
     }

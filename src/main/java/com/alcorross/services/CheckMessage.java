@@ -14,7 +14,7 @@ public final class CheckMessage {
     private CheckMessage() {
     }
 
-    public static CheckMessage getCheckMessageInstance() {
+    public static CheckMessage getInstance() {
         if (checkMessageInstance == null) checkMessageInstance = new CheckMessage();
         return checkMessageInstance;
     }

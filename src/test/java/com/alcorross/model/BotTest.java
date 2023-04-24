@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BotTest {
-    private final Bot bot = Bot.getBotInstance();
+    private final Bot bot = Bot.getInstance();
     private static Update update;
 
     @BeforeAll
@@ -22,7 +22,7 @@ class BotTest {
 
     @Test
     void getBotInstanceShouldReturnBot() {
-        assertThat(Bot.getBotInstance()).withFailMessage("getBotInstance() should return Bot")
+        assertThat(Bot.getInstance()).withFailMessage("getBotInstance() should return Bot")
                 .isInstanceOf(Bot.class);
     }
 

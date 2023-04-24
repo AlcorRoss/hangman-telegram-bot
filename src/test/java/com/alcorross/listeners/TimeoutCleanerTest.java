@@ -12,17 +12,17 @@ class TimeoutCleanerTest {
 
     @Test
     void getTimeCleanInstanceShouldReturnTimeoutCleaner() {
-        assertThat(TimeoutCleaner.getTimeCleanInstance())
+        assertThat(TimeoutCleaner.getInstance())
                 .withFailMessage("getTimeCleanInstance() should return TimeoutCleaner")
                 .isInstanceOf(TimeoutCleaner.class);
     }
 
     @Test
     void runShouldClearCurrentSessionsToTheSizeOfTwoElements() throws DictionaryLoadException {
-        Dictionary dictionary = Dictionary.getDictionaryInstance();
+        Dictionary dictionary = Dictionary.getInstance();
         dictionary.readDictionary();
-        Listener listener = Listener.getListenerInstance();
-        TimeoutCleaner timeoutCleaner = TimeoutCleaner.getTimeCleanInstance();
+        Listener listener = Listener.getInstance();
+        TimeoutCleaner timeoutCleaner = TimeoutCleaner.getInstance();
 
         for (int i = 0; i < 5; i++)
             listener.getCurrentSessions()
@@ -38,6 +38,6 @@ class TimeoutCleanerTest {
 
     @AfterAll
     static void clearCurrentSessions() {
-        Listener.getListenerInstance().getCurrentSessions().clear();
+        Listener.getInstance().getCurrentSessions().clear();
     }
 }

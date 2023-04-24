@@ -14,9 +14,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class ListenerTest {
-    private final Bot bot = Bot.getBotInstance();
-    private final Listener listener = Listener.getListenerInstance();
-    private static final Dictionary DICT = Dictionary.getDictionaryInstance();
+    private final Bot bot = Bot.getInstance();
+    private final Listener listener = Listener.getInstance();
+    private static final Dictionary DICT = Dictionary.getInstance();
 
     @BeforeAll
     static void loadDictionary() throws DictionaryLoadException {
@@ -25,7 +25,7 @@ class ListenerTest {
 
     @Test
     void getListenerInstanceShouldReturnListener() {
-        assertThat(Listener.getListenerInstance())
+        assertThat(Listener.getInstance())
                 .withFailMessage("getListenerInstance() should return Listener")
                 .isInstanceOf(Listener.class);
     }
@@ -114,6 +114,6 @@ class ListenerTest {
 
     @AfterEach
     void clearCurrentSessions() {
-        Listener.getListenerInstance().getCurrentSessions().clear();
+        Listener.getInstance().getCurrentSessions().clear();
     }
 }

@@ -21,7 +21,7 @@ public class Dictionary {
     private Dictionary() {
     }
 
-    public static Dictionary getDictionaryInstance() {
+    public static Dictionary getInstance() {
         if (dictionaryInstance == null) dictionaryInstance = new Dictionary();
         return dictionaryInstance;
     }

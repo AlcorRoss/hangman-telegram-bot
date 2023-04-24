@@ -39,7 +39,7 @@ public class Bot extends TelegramLongPollingBot {
         return BOT_NAME;
     }
 
-    public static Bot getBotInstance() {
+    public static Bot getInstance() {
         if (botInstance == null) botInstance = new Bot(TOKEN);
         return botInstance;
     }

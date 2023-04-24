@@ -9,7 +9,7 @@ public final class CommandHandler {
     private CommandHandler() {
     }
 
-    public static CommandHandler getCommandHandlerInstance() {
+    public static CommandHandler getInstance() {
         if (commandHandlerInstance == null) commandHandlerInstance = new CommandHandler();
         return commandHandlerInstance;
     }
@@ -17,7 +17,7 @@ public final class CommandHandler {
     public Command getCommand(String line) {
         Command command = null;
         switch (line) {
-            case ("/start"), ("Новая игра") -> command = Start.getStartInstance();
+            case ("/start"), ("Новая игра") -> command = Start.getInstance();
         }
         return command;
     }

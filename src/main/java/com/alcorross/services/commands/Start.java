@@ -14,15 +14,15 @@ import java.util.Optional;
 public class Start implements Command {
 
     private static Start startInstance;
-    Dictionary dictionary = Dictionary.getDictionaryInstance();
-    Gameplay gameplay = Gameplay.getGameplayInstance();
-    Bot bot = Bot.getBotInstance();
-    Keyboard keyboard = Keyboard.getKeyboardInstance();
+    Dictionary dictionary = Dictionary.getInstance();
+    Gameplay gameplay = Gameplay.getInstance();
+    Bot bot = Bot.getInstance();
+    Keyboard keyboard = Keyboard.getInstance();
 
     private Start() {
     }
 
-    public static Start getStartInstance() {
+    public static Start getInstance() {
         if (startInstance == null) startInstance = new Start();
         return startInstance;
     }
