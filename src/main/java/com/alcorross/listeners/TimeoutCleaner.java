@@ -26,7 +26,7 @@ public class TimeoutCleaner implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run() { //TODO реализовать запись gameSession в БД вместо удаления и команду продолжить игру
         Map<String, GameSession> currentSessions = Gameplay.getInstance().getCurrentSessions();
         Set<String> tempSet = new HashSet<>(currentSessions.keySet());
         currentSessions.entrySet()
