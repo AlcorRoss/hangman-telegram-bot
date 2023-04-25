@@ -6,7 +6,6 @@ import com.alcorross.model.GameSession;
 import com.alcorross.services.Gameplay;
 import com.alcorross.services.Keyboard;
 import lombok.extern.slf4j.Slf4j;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.Optional;
 
@@ -28,18 +27,17 @@ public class Start implements Command {
     }
 
     @Override
-    public void execute(Message message) {
-        String chatId = message.getChatId().toString();
+    public void execute(String chatId) {
         Optional<GameSession> optGameSession = Optional.ofNullable(gameplay.getCurrentSessions().get(chatId));
         optGameSession.ifPresentOrElse(
                 session -> bot.sendMessage(chatId, "Эй, сперва закончите текущий раунд!",
                         keyboard.getKeyboard(gameplay.getCurrentSessions().get(chatId).getUsedCharacter())),
-                () -> createNewGameSession(message));
+                () -> createNewGameSession(chatId));
     }
 
-    private void createNewGameSession(Message message) {
-        gameplay.getCurrentSessions().put(message.getChatId().toString(),
-                new GameSession(dictionary.wordChoice(), message));
+    private void createNewGameSession(String chatId) {
+        gameplay.getCurrentSessions().put(chatId,
+                new GameSession(dictionary.wordChoice(), chatId));
         log.info("Start new game. Quantity of players: " + gameplay.getCurrentSessions().size());
     }
 }

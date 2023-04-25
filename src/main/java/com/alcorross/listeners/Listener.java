@@ -40,12 +40,12 @@ public class Listener implements Runnable {
                 log.error("The thread was interrupted", e);
                 return;
             }
+            chatId = message.getChatId().toString();
             text = message.getText();
             if (checkMessage.isCommand(text)) {
-                commandHandler.getCommand(text).execute(message);
+                commandHandler.getCommand(text).execute(chatId);
                 continue;
             }
-            chatId = message.getChatId().toString();
             Optional<GameSession> optGameSession = Optional.ofNullable(gameplay.getCurrentSessions().get(chatId));
             if (optGameSession.isPresent()) {
                 if (checkMessage.checkCharacter(text)) gameplay.makeAMove(text.toLowerCase(), optGameSession.get());

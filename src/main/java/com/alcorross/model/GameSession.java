@@ -4,7 +4,6 @@ import com.alcorross.services.Keyboard;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -25,9 +24,6 @@ public class GameSession {
     private final String word;
     @Getter
     private final String chatId;
-    private final String userName;
-    private final String firstName;
-    private final String lastName;
     @Getter
     private final Set<String> usedCharacter = new TreeSet<>();
     @Getter
@@ -35,12 +31,9 @@ public class GameSession {
     Keyboard keyboard = Keyboard.getInstance();
     Bot bot = Bot.getInstance();
 
-    public GameSession(String word, Message message) {
+    public GameSession(String word, String chatId) {
         this.word = word;
-        this.chatId = message.getChatId().toString();
-        this.userName = message.getFrom().getUserName();
-        this.firstName = message.getFrom().getFirstName();
-        this.lastName = message.getFrom().getLastName();
+        this.chatId = chatId;
         st.append(" _".repeat(word.length()));
         bot.sendMessage(chatId, st + "\r\n" + "Введите букву", keyboard.getKeyboard(usedCharacter));
         timeOfLastChange = System.currentTimeMillis();
