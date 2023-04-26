@@ -1,8 +1,9 @@
 package com.alcorross.model;
 
 import lombok.Builder;
+import lombok.Getter;
 
-@Builder
+@Builder @Getter
 public class UserStatistic {
     private String chatId;
     private int numberOfWins;
