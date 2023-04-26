@@ -18,7 +18,7 @@ public class Start implements Command {
     Bot bot = Bot.getInstance();
     Keyboard keyboard = Keyboard.getInstance();
 
-    private Start() {
+    private Start() { //TODO Проверять есть ли в БД, если нет - добавлять
     }
 
     public static Start getInstance() {
