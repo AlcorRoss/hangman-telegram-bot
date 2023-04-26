@@ -17,6 +17,7 @@
         <logback-classic.version>1.4.6</logback-classic.version>
         <junit.version>5.9.2</junit.version>
         <assertj-core.version>3.24.2</assertj-core.version>
+        <postgresql.version>42.6.0</postgresql.version>
         <mockito-core.version>5.2.0</mockito-core.version>
         <hikariCP.version>5.0.1</hikariCP.version>
     </properties>
@@ -83,11 +84,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>${hikariCP.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>
