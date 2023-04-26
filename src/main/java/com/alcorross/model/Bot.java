@@ -1,5 +1,6 @@
 package com.alcorross.model;
 
+import com.alcorross.util.PropertiesUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -18,8 +19,8 @@ public class Bot extends TelegramLongPollingBot {
     private final LinkedBlockingQueue<Message> messages = new LinkedBlockingQueue<>();
 
     private static Bot botInstance;
-    private static final String BOT_NAME = System.getenv("HANG_NAME");
-    private static final String TOKEN = System.getenv("HANG_TOKEN");
+    private static final String BOT_NAME = PropertiesUtil.get("bot.name");
+    private static final String TOKEN = PropertiesUtil.get("token");
 
     private Bot(String botToken) {
         super(botToken);
