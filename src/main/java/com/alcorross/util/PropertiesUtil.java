@@ -1,6 +1,6 @@
 package com.alcorross.util;
 
-import com.alcorross.exceptions.DictionaryLoadException;
+import com.alcorross.exceptions.PropertiesLoadException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ public final class PropertiesUtil {
     static {
         try {
             loadProperties();
-        } catch (DictionaryLoadException e) {
+        } catch (PropertiesLoadException e) {
             log.error(e.getMessage(), e);
             System.exit(1);
         }
@@ -27,12 +27,12 @@ public final class PropertiesUtil {
         return PROPERTIES.getProperty(key);
     }
 
-    private static void loadProperties() throws DictionaryLoadException {
+    private static void loadProperties() throws PropertiesLoadException {
         try (var is = PropertiesUtil.class.getClassLoader().getResourceAsStream("application.properties")) {
             PROPERTIES.load(is);
         } catch (IOException e) {
             log.error("Failed to read file", e);
-            throw new DictionaryLoadException("Failed to load properties");
+            throw new PropertiesLoadException("Failed to load properties");
         }
     }
 }
