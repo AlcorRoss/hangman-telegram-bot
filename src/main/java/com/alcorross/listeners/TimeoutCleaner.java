@@ -1,6 +1,7 @@
 package com.alcorross.listeners;
 
 import com.alcorross.dao.GameSessionDao;
+import com.alcorross.dao.UserStatisticDao;
 import com.alcorross.model.Bot;
 import com.alcorross.model.GameSession;
 import com.alcorross.services.Gameplay;
@@ -21,6 +22,7 @@ public class TimeoutCleaner implements Runnable {
                                           "начиналось восстание машин...";
     Keyboard keyboard = Keyboard.getInstance();
     GameSessionDao gameSessionDao = GameSessionDao.getInstance();
+    UserStatisticDao userStatisticDao = UserStatisticDao.getInstance();
     Bot bot = Bot.getInstance();
 
     private TimeoutCleaner() {
@@ -43,7 +45,10 @@ public class TimeoutCleaner implements Runnable {
                 tempSet.add(chatId);
                 var optByChatId = gameSessionDao.getByChatId(chatId);
                 optByChatId.ifPresentOrElse(
-                        gameSession -> gameSessionDao.update(optGameSession.get()),
+                        gameSession -> {
+                            gameSessionDao.update(optGameSession.get());
+                            userStatisticDao.update(chatId, 1, 0);
+                        },
                         () -> gameSessionDao.save(optGameSession.get())
                 );
                 log.info("The response waiting time has been exceeded. The game is saved and forcibly terminated.");
