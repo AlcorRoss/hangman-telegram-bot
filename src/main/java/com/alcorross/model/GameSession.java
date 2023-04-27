@@ -1,7 +1,6 @@
 package com.alcorross.model;
 
 import com.alcorross.services.Keyboard;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +9,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 @Slf4j
-@Builder
 public class GameSession {
 
     @Getter
@@ -40,6 +38,16 @@ public class GameSession {
         st.append(" _".repeat(word.length()));
         usedCharacter = new TreeSet<>();
         bot.sendMessage(chatId, st + "\r\n" + "Введите букву", keyboard.getKeyboard(usedCharacter));
+        timeOfLastChange = System.currentTimeMillis();
+    }
+
+    public GameSession(int loseCounter, int winCounter, String word, String chatId, Set<String> usedCharacter, StringBuilder st) {
+        this.loseCounter = loseCounter;
+        this.winCounter = winCounter;
+        this.word = word;
+        this.chatId = chatId;
+        this.usedCharacter = usedCharacter;
+        this.st = st;
         timeOfLastChange = System.currentTimeMillis();
     }
 }

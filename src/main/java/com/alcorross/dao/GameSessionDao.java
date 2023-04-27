@@ -96,15 +96,14 @@ public class GameSessionDao {
 
             var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                gameSession = GameSession.builder()
-                        .chatId(chatId)
-                        .loseCounter(resultSet.getInt("lose_counter"))
-                        .winCounter(resultSet.getInt("win_counter"))
-                        .word(resultSet.getString("word"))
-                        .usedCharacter(convertStringToSet(resultSet.getString("used_character")))
-                        .st(new StringBuilder(resultSet.getString("st")))
-                        .timeOfLastChange(System.currentTimeMillis())
-                        .build();
+                gameSession = new GameSession(
+                        resultSet.getInt("lose_counter"),
+                        resultSet.getInt("win_counter"),
+                        resultSet.getString("word"),
+                        chatId,
+                        convertStringToSet(resultSet.getString("used_character")),
+                        new StringBuilder(resultSet.getString("st"))
+                        );
             }
         } catch (SQLException e) {
             log.error("Couldn't get data from game_session", e);
