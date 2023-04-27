@@ -11,6 +11,7 @@ import java.util.Set;
 public class Keyboard {
     private static Keyboard keyboardInstance;
     private static final char[] ALPHABET = "абвгдежзийклмнопрстуфхцчшщъыьэюя".toCharArray();
+    private static final ReplyKeyboardMarkup NEW_GAME_KEYBOARD = createNewGameKeyboard();
 
     private Keyboard() {
     }
@@ -49,12 +50,22 @@ public class Keyboard {
     }
 
     public ReplyKeyboardMarkup getNewGameKeyboard() {
+        return NEW_GAME_KEYBOARD;
+    }
+
+    private static ReplyKeyboardMarkup createNewGameKeyboard() {
         ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboardRows = new ArrayList<>();
         KeyboardRow kRow = new KeyboardRow();
+        KeyboardRow kRow1 = new KeyboardRow();
+        KeyboardRow kRow2 = new KeyboardRow();
 
         kRow.add(new KeyboardButton("Новая игра"));
+        kRow1.add(new KeyboardButton("Продолжить игру"));
+        kRow2.add(new KeyboardButton("Моя статистика"));
         keyboardRows.add(kRow);
+        keyboardRows.add(kRow1);
+        keyboardRows.add(kRow2);
         keyboard.setResizeKeyboard(true);
         keyboard.setOneTimeKeyboard(false);
         keyboard.setKeyboard(keyboardRows);

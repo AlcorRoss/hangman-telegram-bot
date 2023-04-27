@@ -1,5 +1,6 @@
 package com.alcorross.services;
 
+import com.alcorross.dao.UserStatisticDao;
 import com.alcorross.enums.Pictures;
 import com.alcorross.model.Bot;
 import com.alcorross.model.GameSession;
@@ -16,6 +17,7 @@ public class Gameplay {
     private final Map<String, GameSession> currentSessions = new ConcurrentHashMap<>();
     Keyboard keyboard = Keyboard.getInstance();
     Bot bot = Bot.getInstance();
+    UserStatisticDao userStatisticDao = UserStatisticDao.getInstance();
 
     private Gameplay() {
     }
@@ -48,7 +50,7 @@ public class Gameplay {
 
     private void sendAnswer(GameSession gameSession) {
         String messagePattern;
-        if (gameSession.getLoseCounter() == 6) { //TODO запись результатов в БД
+        if (gameSession.getLoseCounter() == 6) {
             messagePattern = """
                     %s
                     Поражение!
@@ -58,8 +60,9 @@ public class Gameplay {
                     """.formatted(Pictures.ERR_6, gameSession.getSt(), gameSession.getWord());
             bot.sendMessage(gameSession.getChatId(), messagePattern, keyboard.getNewGameKeyboard());
             currentSessions.remove(gameSession.getChatId());
+            userStatisticDao.update(gameSession.getChatId(), 1, 0);
             log.info("The game has been completed.");
-        } else if (gameSession.getWinCounter() == gameSession.getWord().length()) { //TODO запись результатов в БД
+        } else if (gameSession.getWinCounter() == gameSession.getWord().length()) {
             messagePattern = """
                     Победа!
                     Слово: %s
@@ -67,6 +70,7 @@ public class Gameplay {
                     """.formatted(gameSession.getWord());
             bot.sendMessage(gameSession.getChatId(), messagePattern, keyboard.getNewGameKeyboard());
             currentSessions.remove(gameSession.getChatId());
+            userStatisticDao.update(gameSession.getChatId(), 0, 1);
             log.info("The game has been completed.");
         } else {
             messagePattern = """
