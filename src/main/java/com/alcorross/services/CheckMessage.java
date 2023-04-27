@@ -9,7 +9,12 @@ public final class CheckMessage {
 
     private static CheckMessage checkMessageInstance;
     private static final Pattern PATTERN = Pattern.compile("[а-яёА-ЯЁ]+");
-    private static final List<String> COMMAND_LIST = new ArrayList<>(List.of("/Start", "Новая игра"));
+    private static final List<String> COMMAND_LIST = new ArrayList<>(List.of(
+            "/start",
+            "Новая игра",
+            "Продолжить игру",
+            "Моя статистика"
+    ));
 
     private CheckMessage() {
     }

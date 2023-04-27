@@ -56,7 +56,6 @@ public class Gameplay {
                     Поражение!
                     Отгаданные буквы: %s
                     Слово: %s
-                    Сыграть еще раз - /start
                     """.formatted(Pictures.ERR_6, gameSession.getSt(), gameSession.getWord());
             bot.sendMessage(gameSession.getChatId(), messagePattern, keyboard.getNewGameKeyboard());
             currentSessions.remove(gameSession.getChatId());
@@ -66,7 +65,6 @@ public class Gameplay {
             messagePattern = """
                     Победа!
                     Слово: %s
-                    Сыграть еще раз - /start
                     """.formatted(gameSession.getWord());
             bot.sendMessage(gameSession.getChatId(), messagePattern, keyboard.getNewGameKeyboard());
             currentSessions.remove(gameSession.getChatId());

@@ -1,8 +1,6 @@
 package com.alcorross.services;
 
-import com.alcorross.services.commands.Command;
-import com.alcorross.services.commands.NewGame;
-import com.alcorross.services.commands.Start;
+import com.alcorross.services.commands.*;
 
 public final class CommandHandler {
     private static CommandHandler commandHandlerInstance;
@@ -20,6 +18,8 @@ public final class CommandHandler {
         switch (line) {
             case ("/start") -> command = Start.getInstance();
             case ("Новая игра") -> command = NewGame.getInstance();
+            case ("Продолжить игру") -> command = ContinueGame.getInstance();
+            case ("Моя статистика") -> command = MyStatistic.getInstance();
         }
         return command;
     }
