@@ -1,6 +1,5 @@
 package com.alcorross.model;
 
-import com.alcorross.exceptions.DictionaryLoadException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -28,11 +27,6 @@ class DictionaryTest {
         }
     }
 
-    @BeforeAll
-    static void loadDictionary() throws DictionaryLoadException {
-        DICT.readDictionary();
-    }
-
     @Test
     void getDictionaryInstanceShouldReturnDictionary() {
         assertThat(Dictionary.getInstance())
@@ -44,6 +38,6 @@ class DictionaryTest {
     void wordChoiceShouldReturnStringContainedInTheTestList() {
         String word = DICT.wordChoice();
         assertThat(TEST_LIST).withFailMessage("The wordChoice should return the word contained" +
-                " in the testList: " + word).contains(word);
+                                              " in the testList: " + word).contains(word);
     }
 }

@@ -1,10 +1,8 @@
 package com.alcorross;
 
-import com.alcorross.exceptions.DictionaryLoadException;
 import com.alcorross.listeners.Listener;
 import com.alcorross.listeners.TimeoutCleaner;
 import com.alcorross.model.Bot;
-import com.alcorross.model.Dictionary;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -18,13 +16,6 @@ import java.util.concurrent.TimeUnit;
 public class Main {
     public static void main(String[] args) {
         Bot bot = Bot.getInstance();
-        try {
-            Dictionary.getInstance().readDictionary();
-        } catch (DictionaryLoadException e) {
-            log.error(e.getMessage(), e);
-            System.exit(1);
-        }
-        log.info("The dictionary has been loaded");
         Thread listenerThread = new Thread(Listener.getInstance());
         listenerThread.setDaemon(true);
         listenerThread.start();

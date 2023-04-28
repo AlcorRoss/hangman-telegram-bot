@@ -14,9 +14,19 @@ import java.util.Random;
 
 @Slf4j
 public class Dictionary {
-    private final List<String> DICTIONARY = new ArrayList<>();
+    private static final List<String> DICTIONARY = new ArrayList<>();
     private static Dictionary dictionaryInstance;
     private static final Random RANDOM = new Random();
+
+    static {
+        try {
+            readDictionary();
+        } catch (DictionaryLoadException e) {
+            log.error(e.getMessage(), e);
+            System.exit(1);
+        }
+        log.info("The dictionary has been loaded");
+    }
 
     private Dictionary() {
     }
@@ -26,9 +36,9 @@ public class Dictionary {
         return dictionaryInstance;
     }
 
-    public void readDictionary() throws DictionaryLoadException {
+    private static void readDictionary() throws DictionaryLoadException {
         String line;
-        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("dictionary.txt")) {
+        try (InputStream is = Dictionary.class.getClassLoader().getResourceAsStream("dictionary.txt")) {
             if (is == null) throw new NullPointerException("File not found: dictionary.txt");
             @Cleanup BufferedReader br = new BufferedReader(new InputStreamReader(is), 1384448);
             while ((line = br.readLine()) != null) DICTIONARY.add(line);
