@@ -18,9 +18,9 @@ class CheckMessageTest {
     static Stream<String> falseArgsProviderFactory() {
         List<String> argsList = new ArrayList<>();
         char[] chars = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" +
-                "!@#$%^&*()_+-=/~.,?1234567890").toCharArray();
+                        "!@#$%^&*()_+-=/~.,?1234567890").toCharArray();
         char[] rChar = ("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя" +
-                "!@#$%^&*()_+-=/~.,?1234567890").toCharArray();
+                        "!@#$%^&*()_+-=/~.,?1234567890").toCharArray();
         Random r = new Random();
 
         for (int i = 0; i < 1000; i++) argsList.add(String.valueOf(r.nextInt(-100000, 100000)));
@@ -74,7 +74,7 @@ class CheckMessageTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"/start", "Новая игра"})
+    @ValueSource(strings = {"/start", "Новая игра", "Продолжить игру", "Моя статистика"})
     void isCommandShouldReturnTrue(String line) {
         assertThat(checkMessage.isCommand(line)).withFailMessage("The method must return true").isTrue();
     }

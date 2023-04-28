@@ -1,5 +1,6 @@
 package com.alcorross.services;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -56,14 +57,20 @@ class KeyboardTest {
                 .isInstanceOf(Keyboard.class);
     }
 
-    @Test
+    @RepeatedTest(50)
     void newGameKeyboardShouldBeEqualKb() {
         ReplyKeyboardMarkup kb = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboardRows = new ArrayList<>();
         KeyboardRow kRow = new KeyboardRow();
+        KeyboardRow kRow1 = new KeyboardRow();
+        KeyboardRow kRow2 = new KeyboardRow();
 
         kRow.add(new KeyboardButton("Новая игра"));
+        kRow1.add(new KeyboardButton("Продолжить игру"));
+        kRow2.add(new KeyboardButton("Моя статистика"));
         keyboardRows.add(kRow);
+        keyboardRows.add(kRow1);
+        keyboardRows.add(kRow2);
         kb.setResizeKeyboard(true);
         kb.setOneTimeKeyboard(false);
         kb.setKeyboard(keyboardRows);
@@ -75,7 +82,7 @@ class KeyboardTest {
     @MethodSource("keyboardProviderFactory")
     void keyboardShouldBeEqualTestKeyboard(Set<String> unusedCharacter) {
         assertThat(keyboard.getKeyboard(unusedCharacter)).withFailMessage("getKeyboard should return" +
-                        " a keyboard equal to the keyboard from mapTestKeyboard")
+                                                                          " a keyboard equal to the keyboard from mapTestKeyboard")
                 .isEqualTo(MAP_TEST_KEYBOARD.get(unusedCharacter));
     }
 }
