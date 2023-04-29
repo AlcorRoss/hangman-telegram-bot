@@ -20,7 +20,7 @@ public final class DBTableCreator {
         try (var connection = DataSource.getConnection()) {
             Database database = DatabaseFactory.getInstance()
                     .findCorrectDatabaseImplementation(new JdbcConnection(connection));
-            Liquibase liquibase = new Liquibase("db.changelog-master.xml",
+            Liquibase liquibase = new Liquibase("db.changelog/db.changelog-master.xml",
                     new ClassLoaderResourceAccessor(), database);
             liquibase.update("Create table", new OutputStreamWriter(System.out));
         } catch (SQLException | LiquibaseException e) {
