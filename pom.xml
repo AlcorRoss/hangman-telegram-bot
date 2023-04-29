@@ -20,6 +20,7 @@
         <postgresql.version>42.6.0</postgresql.version>
         <mockito-core.version>5.2.0</mockito-core.version>
         <hikariCP.version>5.0.1</hikariCP.version>
+        <liquibase-core.version>4.21.1</liquibase-core.version>
     </properties>
 
     <scm>
@@ -93,6 +94,12 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>${hikariCP.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase-core.version}</version>
         </dependency>
     </dependencies>
 
