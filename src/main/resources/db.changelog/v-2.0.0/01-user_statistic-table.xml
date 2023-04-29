@@ -11,5 +11,22 @@
                  relativeToChangelogFile="true"
                 path="01-create-user_statistic.sql"/>
     </changeSet>
+    
+<!--    <changeSet id="1" author="DESokolov">-->
+<!--        <createTable tableName="user_statistic">-->
+<!--            <column name="chat_id" type="varchar(32)">-->
+<!--                <constraints primaryKey="true"/>-->
+<!--            </column>-->
+
+<!--            <column name="number_of_wins" type="int">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+
+<!--            <column name="number_of_loses" type="int">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+
+<!--        </createTable>-->
+<!--    </changeSet>-->
 
 </databaseChangeLog>
