@@ -3,6 +3,7 @@ package com.alcorross;
 import com.alcorross.listeners.Listener;
 import com.alcorross.listeners.TimeoutCleaner;
 import com.alcorross.model.Bot;
+import com.alcorross.util.DBTableCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class Main {
     public static void main(String[] args) {
+        DBTableCreator.createDBTable(); // запуск liquibase
         Bot bot = Bot.getInstance();
         Thread listenerThread = new Thread(Listener.getInstance());
         listenerThread.setDaemon(true);
