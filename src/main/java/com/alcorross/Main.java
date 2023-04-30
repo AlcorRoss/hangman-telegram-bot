@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class Main {
     public static void main(String[] args) {
-        DBTableCreator.createDBTable(); // запуск liquibase
+        DBTableCreator.createDBTable();
         Bot bot = Bot.getInstance();
         Thread listenerThread = new Thread(Listener.getInstance());
         listenerThread.setDaemon(true);
