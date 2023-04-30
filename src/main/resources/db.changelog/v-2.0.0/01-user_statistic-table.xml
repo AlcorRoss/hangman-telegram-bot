@@ -4,29 +4,27 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-
-    <changeSet id="1" author="DESokolov">
-        <sqlFile dbms="postgresql"
-                 encoding="utf8"
-                 relativeToChangelogFile="true"
-                path="01-create-user_statistic.sql"/>
-    </changeSet>
     
-<!--    <changeSet id="1" author="DESokolov">-->
-<!--        <createTable tableName="user_statistic">-->
-<!--            <column name="chat_id" type="varchar(32)">-->
-<!--                <constraints primaryKey="true"/>-->
-<!--            </column>-->
+    <changeSet id="01-create user_statistic table" author="DESokolov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_statistic"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user_statistic">
+            <column name="chat_id" type="varchar(32)">
+                <constraints primaryKey="true"/>
+            </column>
 
-<!--            <column name="number_of_wins" type="int">-->
-<!--                <constraints nullable="false"/>-->
-<!--            </column>-->
+            <column name="number_of_wins" type="int">
+                <constraints nullable="false"/>
+            </column>
 
-<!--            <column name="number_of_loses" type="int">-->
-<!--                <constraints nullable="false"/>-->
-<!--            </column>-->
+            <column name="number_of_loses" type="int">
+                <constraints nullable="false"/>
+            </column>
 
-<!--        </createTable>-->
-<!--    </changeSet>-->
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>

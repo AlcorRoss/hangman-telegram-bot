@@ -6,15 +6,12 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="0" author="DESokolov">
-        <preConditions>
-            <dbms type="postgresql"/>
-        </preConditions>
         <tagDatabase tag="db_init"/>
     </changeSet>
 
     <include file="v-2.0.0/db.changelog-v.2.0.0.xml" relativeToChangelogFile="true"/>
     
-    <changeSet id="3" author="DESokolov">
+    <changeSet id="04" author="DESokolov">
         <tagDatabase tag="v.2.0.0"/>
     </changeSet>
 

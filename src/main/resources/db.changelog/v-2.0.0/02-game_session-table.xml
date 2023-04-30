@@ -5,11 +5,45 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="2" author="DESokolov">
-        <sqlFile dbms="postgresql"
-                 encoding="utf8"
-                 relativeToChangelogFile="true"
-                 path="02-create-game_session.sql"/>
+    <changeSet id="02-create game_session table" author="DESokolov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="game_session"/>
+            </not>
+        </preConditions>
+        <createTable tableName="game_session">
+            <column name="chat_id" type="varchar(32)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="lose_counter" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="win_counter" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="word" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="used_character" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="st" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 
+    <changeSet id="03-create game_session foreign key" author="DESokolov">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="user_statistic"/>
+            <tableExists tableName="game_session"/>
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="game_session_chat_id_fkey"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="game_session" baseColumnNames="chat_id"
+                                 constraintName="game_session_chat_id_fkey"
+                                 referencedTableName="user_statistic"
+                                 referencedColumnNames="chat_id"/>
+    </changeSet>
 </databaseChangeLog>

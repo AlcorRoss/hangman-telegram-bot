@@ -1,5 +1,7 @@
 package com.alcorross.util;
 
+import liquibase.Contexts;
+import liquibase.LabelExpression;
 import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
@@ -8,7 +10,6 @@ import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.OutputStreamWriter;
 import java.sql.SQLException;
 
 @Slf4j
@@ -22,7 +23,7 @@ public final class DBTableCreator {
                     .findCorrectDatabaseImplementation(new JdbcConnection(connection));
             Liquibase liquibase = new Liquibase("db.changelog/db.changelog-master.xml",
                     new ClassLoaderResourceAccessor(), database);
-            liquibase.update("Create table", new OutputStreamWriter(System.out));
+            liquibase.update(new Contexts("Create table"), new LabelExpression());
         } catch (SQLException | LiquibaseException e) {
             log.info("Couldn't create tables", e);
         }
