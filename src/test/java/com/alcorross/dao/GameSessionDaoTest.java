@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GameSessionDaoTest {
 
     @BeforeAll
-    static void insertGameSessionIntoDB() {
+    static void insertIntoDB() {
         UserStatisticDao.getInstance().save(UserStatistic
                 .builder().chatId("1")
                 .numberOfLoses(1)
@@ -64,6 +64,7 @@ public class GameSessionDaoTest {
     void getByChatIdShouldReturnGameSession() {
         var optionalGameSession = GameSessionDao.getInstance().getByChatId("1");
         assertThat(optionalGameSession).isPresent();
+        assertThat(optionalGameSession.get()).isInstanceOf(GameSession.class);
     }
 
     @Test
