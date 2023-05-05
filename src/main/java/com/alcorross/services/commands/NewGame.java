@@ -50,8 +50,7 @@ public class NewGame implements Command {
     }
 
     private void createNewGameSession(String chatId) {
-        gameplay.getCurrentSessions().put(chatId,
-                new GameSession(dictionary.wordChoice(), chatId));
-        log.info("NewGame new game. Quantity of players: " + gameplay.getCurrentSessions().size());
+        gameplay.getCurrentSessions().put(chatId, new GameSession(dictionary.wordChoice(), chatId));
+        log.info("Start new game. Quantity of players: " + gameplay.getCurrentSessions().size());
     }
 }
