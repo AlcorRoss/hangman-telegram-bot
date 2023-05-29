@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class NewGameTest {
+class NewGameTest {
     private static final Gameplay GAMEPLAY = Gameplay.getInstance();
 
     @Test
