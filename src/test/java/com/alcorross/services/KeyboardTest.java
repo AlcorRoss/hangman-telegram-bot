@@ -80,7 +80,7 @@ class KeyboardTest {
 
     @ParameterizedTest
     @MethodSource("keyboardProviderFactory")
-    void keyboardShouldBeEqualTestKeyboard(Set<String> unusedCharacter) {
+    void getKeyboardShouldReturnKeyboardBeEqualTestKeyboard(Set<String> unusedCharacter) {
         assertThat(keyboard.getKeyboard(unusedCharacter)).withFailMessage("getKeyboard should return" +
                                                                           " a keyboard equal to the keyboard from mapTestKeyboard")
                 .isEqualTo(MAP_TEST_KEYBOARD.get(unusedCharacter));
